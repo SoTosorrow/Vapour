@@ -1,0 +1,4 @@
+QWidget { background: transparent;}
+QLabel { color: #e0e0e0; background: transparent; }
+QGraphicsView { selection-background-color: rgb(255,255,255);}
+
