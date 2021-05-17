@@ -11,8 +11,9 @@
 #include<QDebug>
 #include<QMouseEvent>
 #include<QKeyEvent>
-#include<typeinfo>
+// #include<typeinfo>
 #include<QMenu>
+#include<QQueue>
 
 //TODO： #include<QDataStream>   序列化与反序列化
 
@@ -50,6 +51,8 @@ public:
     void addEdge(Node* input_node,Node* output_node,
                  NodeSocket* input_socket,NodeSocket* output_socket);
     void deleteItem();
+    void QueryNode();
+
     void buildGraph();
     void ergodicGraph();
 

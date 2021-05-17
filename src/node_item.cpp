@@ -91,3 +91,8 @@ bool NodeItem::contains(const QPointF &point) const
     return false;
 
 }
+
+void NodeItem::setTitle(QString title)
+{
+    this->text->setPlainText(title);
+}

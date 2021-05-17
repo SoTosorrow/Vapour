@@ -21,6 +21,8 @@ public:
     QRectF boundingRect() const override;
     bool contains(const QPointF &point) const override;
 
+    void setTitle(QString title);
+
 
 public:
     QString title;

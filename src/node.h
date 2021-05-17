@@ -9,6 +9,11 @@
 #include"node_item.h"
 #include"node_socket.h"
 
+//struct NodeConnect{
+//    Node *node;
+//};
+
+
 class Node : public QWidget
 {
 public:
@@ -21,12 +26,17 @@ public:
     void setPos(QPointF pos);
     void setIndex(int index);
     void initSocket(int in,int out);
+    void setTitle(QString title){
+        this->item->setTitle(title);
+    }
 
 
 public:
     int index;
-//    QList<Node*> input_nodes;
-//    QList<Node*> output_nodes;
+    QList<Node*> input_nodes;
+    QList<Node*> output_nodes;
+    int input_vaild = 0;
+    int output_vaild = 0;
 //    Node* input_node;
 //    Node* output_node;
 

@@ -32,6 +32,14 @@ void EditorView::keyPressEvent(QKeyEvent *event){
         this->addNode(number++,pos);
         return;
     }
+    if((event->modifiers()== Qt::ShiftModifier) && event->key() == Qt::Key_Q){
+        this->QueryNode();
+        return;
+    }
+    if((event->modifiers()== Qt::ShiftModifier) && event->key() == Qt::Key_S){
+        this->buildGraph();
+        return;
+    }
     if(event->key() == Qt::Key_Delete){
         deleteItem();
         return;
@@ -226,6 +234,10 @@ void EditorView::addEdge(Node *input_node, Node *output_node,
         return;
     }
     output_socket->is_connected=true;
+    // 连线结束处的节点拥有新的输入
+    output_node->input_nodes.append(input_node);
+    // 连线开始处的节点拥有新的输出
+    input_node->output_nodes.append(output_node);
     this->edge = new NodeEdge(input_node,output_node,
                               input_socket,output_socket);
     this->edge->setZValue(-1);
@@ -237,6 +249,7 @@ void EditorView::addEdge(Node *input_node, Node *output_node,
 
 void EditorView::deleteItem()
 {
+    qDebug()<<this->editorScene->items().count();
     QList<QGraphicsItem*> item_list = this->editorScene->selectedItems();
     for(int i=0;i<item_list.length();i++){
         for(int j=0;j<this->nodes.length();j++){
@@ -249,13 +262,41 @@ void EditorView::deleteItem()
         }
         for(int j=0;j<this->edges.length();j++){
             if(this->edges[j] == item_list[i]){
+                this->edges[j]->input_node->output_nodes.removeOne(this->edges[j]->output_node);
+                this->edges[j]->output_node->input_nodes.removeOne(this->edges[j]->input_node);
+                this->edges[j]->input_socket->is_connected = false;
+                this->edges[j]->output_socket->is_connected = false;
                 delete this->edges[j];
                 this->edges.removeOne(this->edges[j]);
                 this->editorScene->removeItem(item_list[i]);
             }
         }
     }
+    qDebug()<<this->editorScene->items().count();
 
+}
+
+void EditorView::QueryNode()
+{
+    QList<QGraphicsItem*> item_list = this->editorScene->selectedItems();
+    for(int i=0;i<item_list.length();i++){
+        for(int j=0;j<this->nodes.length();j++){
+            if(this->nodes[j]->item == item_list[i]){
+                qDebug()<<this->nodes[j]->index<<":";
+//                qDebug()<<this->nodes[j]->input_socket_number;
+//                qDebug()<<this->nodes[j]->input_sockets;
+//                qDebug()<<this->nodes[j]->output_socket_number;
+//                qDebug()<<this->nodes[j]->output_sockets;
+                for(int n=0;n<this->nodes[j]->input_nodes.length();n++){
+                    qDebug()<<this->nodes[j]->input_nodes[n]->index;
+                }
+                for(int n=0;n<this->nodes[j]->output_nodes.length();n++){
+                    qDebug()<<this->nodes[j]->output_nodes[n]->index;
+                }
+                qDebug()<<"----------";
+            }
+        }
+    }
 }
 
 
@@ -270,6 +311,7 @@ void EditorView::addNode(int index,QPoint pos)
     posF.setY(posF.y()-40);
     node->setPos(posF);
     node->setIndex(index);
+    node->setTitle(QString::number(index));
     this->nodes.push_back(node);
     this->editorScene->addItem(node->item);
 
@@ -288,6 +330,31 @@ void EditorView::addNode()
 
 void EditorView::buildGraph()
 {
+    qDebug()<<"**************";
+    QQueue<Node*> queue;
+    for(int i=0;i<this->nodes.length();i++){
+        //for(int j=0;j<this->nodes[i]->input_nodes.length();j++)
+        this->nodes[i]->input_vaild = this->nodes[i]->input_nodes.length();
+        this->nodes[i]->output_vaild = this->nodes[i]->output_nodes.length();
+        if(this->nodes[i]->input_vaild == 0){
+            queue.append(this->nodes[i]);
+        }
+    }
+//    for(int i=0;i<queue.length();i++){
+//        qDebug()<<queue[i]->index;
+//    }
+
+    qDebug()<<"topological-sort";
+    while(!queue.empty()){
+        qDebug()<<queue[0]->index;
+        for(int k=0;k<queue[0]->output_nodes.length();k++){
+            queue[0]->output_nodes[k]->input_vaild--;
+            if(queue[0]->output_nodes[k]->input_vaild == 0){
+                queue.append(queue[0]->output_nodes[k]);
+            }
+        }
+        queue.pop_front();
+    }
 
 }
 void EditorView::ergodicGraph()
