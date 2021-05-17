@@ -6,7 +6,7 @@ EditorWin::EditorWin(QWidget *parent)
     :QWidget(parent)
 {
     qDebug()<<"Create: EditorWin";
-    this->file_name = "others/nodestyle.qss";
+    this->file_name = "reply/nodestyle.qss";
     //qDebug()<<QDir::currentPath();
 
     this->layout = new QVBoxLayout(); // 垂直布局

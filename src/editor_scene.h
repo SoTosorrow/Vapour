@@ -19,21 +19,23 @@ public:
     EditorScene(QWidget *parent=nullptr);
     ~EditorScene();
 
+    // 绘制背景
     void drawBackground(QPainter *painter, const QRectF &rect) override;
+    // 设置场景大小
     void SetScene(int width,int height);
 
 
 
 
 private:
-
+    // 背景绘制样式
     QColor color_background;
     QColor color_light;
     QColor color_dark;
     QPen pen_light;
     QPen pen_dark;
 
-
+    // 背景绘制参数
     int gridSize=20;
     int gridSquare=5;
     int scene_width = 6400;

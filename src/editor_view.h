@@ -12,14 +12,17 @@
 #include<QMouseEvent>
 #include<QKeyEvent>
 #include<typeinfo>
+#include<QMenu>
 
 //TODO： #include<QDataStream>   序列化与反序列化
 
 #include"editor_scene.h"
+#include"node.h"
 
 
 class EditorView : public QGraphicsView
 {
+    Q_OBJECT
 public:
     EditorView(EditorScene* scene,QWidget *parent=nullptr);
     ~EditorView();
@@ -29,6 +32,7 @@ public:
     void mouseMoveEvent(QMouseEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;  // 鼠标滑轮影响场景大小
+    void contextMenuEvent(QContextMenuEvent *event) override;
 
 
     void middleMouseButtonPress(QMouseEvent *event);
@@ -39,18 +43,13 @@ public:
     void RightMouseButtonRelease(QMouseEvent *event);
 
 
-    void addNode(const int index);
-    void addNode(const int index,const int type);
-    void addEdge(int start_node_index,int start_socket_index,
-                 int end_node_index,int end_socket_index);
+//    void addNode(QPoint pos);
+//    void addNode();
 
     void buildGraph();
     void ergodicGraph();
 
 
-
-//    QGraphicsItem* NodeToItem(NodeEnsemble* node);
-//    QGraphicsItem* EdgeToItem(NodeEdge* edge);
 
 public:
 //    friend QDataStream &operator<<(QDataStream &,const EditorView &);
@@ -59,22 +58,15 @@ public:
 
 public:
     EditorScene* editorScene;    //绘制背景
-//    QVector<std::shared_ptr<NodeEnsemble>> nodes;
-//    QVector<std::shared_ptr<NodeEdge>> edges;
-//    std::shared_ptr<NodeEdge> edge;
-//    std::shared_ptr<NodeEdgeTemp> edge_temp;
+    QList<Node*> nodes;
+    // edges
 
-//    QVector<bool> visited;
-//    QQueue<std::shared_ptr<NodeEnsemble>> queue;
+    QMenu *menu;
+
 
     bool is_edge_temp_alive = false;
     int number = 100;   // prime index
 
-//    std::shared_ptr<QGraphicsItem> obj;
-//    std::shared_ptr<QGraphicsItem> item;
-    // 寻找智能指针或者其他替代方法
-    QGraphicsItem* obj;
-    QGraphicsItem* item;
 
     bool output_ready = false;
     bool input_ready = false;
@@ -83,6 +75,9 @@ public:
     int output_node_index;
     int output_socket_index;
 
+private slots:
+    void addNode();
+    void addNode(QPoint pos);
 
 private:
     // 缩放参数

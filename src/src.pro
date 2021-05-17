@@ -12,12 +12,16 @@ SOURCES += \
     editor_scene.cpp \
     editor_view.cpp \
     editor_win.cpp \
-    main.cpp
+    main.cpp \
+    node.cpp \
+    node_item.cpp
 
 HEADERS += \
     editor_scene.h \
     editor_view.h \
-    editor_win.h
+    editor_win.h \
+    node.h \
+    node_item.h
 
 FORMS +=
 

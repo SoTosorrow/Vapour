@@ -25,9 +25,17 @@ EditorView::EditorView(EditorScene* scene,QWidget *parent)
 }
 EditorView::~EditorView()
 {
-
+    delete editorScene;
+    this->editorScene = nullptr;
+    delete menu;
+    this->menu = nullptr;
 }
 void EditorView::keyPressEvent(QKeyEvent *event){
+    QPoint pos = this->cursor().pos();
+    if((event->modifiers()== Qt::ShiftModifier) && event->key() == Qt::Key_A){
+        this->addNode(pos);
+        return;
+    }
 
     QGraphicsView::keyPressEvent(event);
 }
@@ -113,20 +121,32 @@ void EditorView::RightMouseButtonRelease(QMouseEvent *event)
     QGraphicsView::mouseReleaseEvent(event);
 }
 
-void EditorView::addNode(const int index)
+
+void EditorView::addNode(QPoint pos)
 {
+    QPointF posF;
+    pos = this->mapFromGlobal(pos);
+    posF = this->mapToScene(pos);
+
+    Node* node = new Node();
+    posF.setX(posF.x()-40);
+    posF.setY(posF.y()-40);
+    node->setPos(posF);
+    this->nodes.push_back(node);
+    this->editorScene->addItem(node->item);
+
 
 }
 
-void EditorView::addNode(const int index, const int type)
+void EditorView::addNode()
 {
-    qDebug()<<index<<type;
-}
-
-void EditorView::addEdge(int start_node_index, int start_socket_index, int end_node_index, int end_socket_index)
-{
+    Node* node = new Node();
+    this->nodes.push_back(node);
+    this->editorScene->addItem(node->item);
 
 }
+
+
 
 void EditorView::buildGraph()
 {
@@ -139,17 +159,7 @@ void EditorView::ergodicGraph()
 }
 
 
-//std::shared_ptr<QGraphicsItem> EditorView::NodeToItem(std::shared_ptr<NodeEnsemble> node)
-//{
-//    std::shared_ptr<QGraphicsItem> item(node->item);
-//    return item;
-//}
 
-//std::shared_ptr<QGraphicsItem> EditorView::EdgeToItem(std::shared_ptr<NodeEdge> edge)
-//{
-//    std::shared_ptr<QGraphicsItem> item(edge);
-//    return item;
-//}
 void EditorView::wheelEvent(QWheelEvent *event)
 {
     // the factor of zoom
@@ -189,5 +199,42 @@ void EditorView::wheelEvent(QWheelEvent *event)
     */
 
 
-   // event->accept();
+    // event->accept();
+}
+
+void EditorView::contextMenuEvent(QContextMenuEvent *event)
+{
+    Q_UNUSED(event);
+    QPoint pos = this->cursor().pos();
+    QPoint pos2 = this->mapFromGlobal(pos);
+    pos2 = this->mapToGlobal(pos2);
+
+    menu = new QMenu();
+
+
+    QString qss = "QMenu { background-color:#999999; \
+                            padding:5px;\
+                            }"
+                   "QMenu::item:selected {background-color : rgb(50,50,50)\
+                            ;}";
+    menu->setStyleSheet(qss);
+
+
+
+    // QAction *addNode1 = menu->addAction("原点Node");
+    QAction *addNode1 = menu->addAction("Test-Node");
+    QAction *addNode2 = menu->addAction("Test-Node");
+    QAction *addNode3 = menu->addAction("Test-Node");
+    QAction *addNode4 = menu->addAction("Test-Node");
+
+
+    menu->popup(pos);
+
+    // connect(addNode1,SIGNAL(triggered()),this,SLOT(addNode()));
+    connect(addNode1, &QAction::triggered, [=]()
+    {
+        addNode(pos);
+    });
+    // std::bind
+    // connect(addNode2, &QAction::triggered, this, std::bind(addNode(), pos));
 }
