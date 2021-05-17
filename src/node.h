@@ -19,6 +19,7 @@ public:
     void operator=(const Node &node);
 
     void setPos(QPointF pos);
+    void setIndex(int index);
     void initSocket(int in,int out);
 
 

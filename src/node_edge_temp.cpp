@@ -8,7 +8,7 @@ NodeEdgeTemp::NodeEdgeTemp(QPointF start,QPointF end, QGraphicsItem *parent)
     Q_UNUSED(parent);
     this->start_pos = start;
     this->end_pos = end;
-    path = std::make_shared<QPainterPath>(start_pos);
+    this->path = QPainterPath(start_pos);
     //this->setFlag(QGraphicsItem::ItemIsSelectable);
 }
 
@@ -26,7 +26,6 @@ void NodeEdgeTemp::operator=(const NodeEdgeTemp &nodeEdge)
 
 NodeEdgeTemp::~NodeEdgeTemp()
 {
-    path.reset();
 }
 
 void NodeEdgeTemp::setEndPos(QPointF end)
@@ -49,40 +48,30 @@ void NodeEdgeTemp::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     pen1.setWidth(2);
     pen1.setStyle(Qt::DashLine);
 
-    path = std::make_shared<QPainterPath>(start_pos);
+    this->path = QPainterPath(start_pos);
     painter->setPen(pen1);
-//    QPoint end_pos = QCursor::pos();
-//    QWidget w;
-//    end_pos =w.mapFromGlobal(end_pos);
-//    QCursor::setPos(0,0);
-
-
-    // Direct / Bezier
     painter->setRenderHint(QPainter::Antialiasing);
     painter->setBrush(Qt::NoBrush);
-
-    //TODO when simplified and when *pen
 
     qreal distance = (end_pos.x() - start_pos.x()) * 0.5;
     if(start_pos.x() > end_pos.y()&&start_pos.y() > end_pos.x()){
         distance *= -1;
     }
 
-    path->moveTo(start_pos);
-    path->cubicTo(start_pos.x() + distance,
+    path.moveTo(start_pos);
+    path.cubicTo(start_pos.x() + distance,
                   start_pos.y(),
                   end_pos.x() - distance,
                   end_pos.y(),
                   end_pos.x(),
                   end_pos.y());
-    //path->lineTo(end_pos);
-    this->setPath(*path);
-    painter->drawPath(*path);
+    this->setPath(path);
+    painter->drawPath(path);
 }
 
 QRectF NodeEdgeTemp::boundingRect() const
 {
-    return this->path->boundingRect();
+    return this->path.boundingRect();
     //return this->shape().boundingRect();
 
 }

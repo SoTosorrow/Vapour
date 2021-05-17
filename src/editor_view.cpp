@@ -17,10 +17,6 @@ EditorView::EditorView(EditorScene* scene,QWidget *parent)
     this->setTransformationAnchor(QGraphicsView::AnchorUnderMouse); //设置锚点
     this->setDragMode(QGraphicsView::RubberBandDrag);  // 框选
 
-    this->input_node_index = -1;
-    this->input_socket_index = -1;
-    this->output_node_index = -1;
-    this->output_socket_index = -1;
 
 }
 EditorView::~EditorView()
@@ -33,7 +29,7 @@ EditorView::~EditorView()
 void EditorView::keyPressEvent(QKeyEvent *event){
     QPoint pos = this->cursor().pos();
     if((event->modifiers()== Qt::ShiftModifier) && event->key() == Qt::Key_A){
-        this->addNode(pos);
+        this->addNode(number++,pos);
         return;
     }
 
@@ -108,7 +104,6 @@ void EditorView::leftMouseButtonPress(QMouseEvent *event)
 
     for(int i=0;i<this->nodes.length();i++){
         if(this->nodes[i]->item->contains(obj_pos)){
-            this->output_node_index = this->nodes[i]->index;
 
             // 如果选中了output socket，则产生虚拟连线
             for(int j=0;j<this->nodes[i]->output_socket_number;j++){
@@ -118,10 +113,13 @@ void EditorView::leftMouseButtonPress(QMouseEvent *event)
                     this->editorScene->addItem(edge_temp);
                     is_edge_temp_alive = true;
 
-                    this->output_socket_index = this->nodes[i]->output_sockets[j]->index;
+                    this->start_node = this->nodes[i];
+                    this->start_socket = this->nodes[i]->output_sockets[j];
+
                     return;
                 }
             }
+            // 如果选中了input socket，则产生虚拟连线
             for(int j=0;j<this->nodes[i]->input_socket_number;j++){
                 if(this->nodes[i]->input_sockets[j]->contains(obj_pos)){
                     qDebug()<<"Click: OutSocket:"<<this->nodes[i]->index<<">"<<this->nodes[i]->input_sockets[j]->index;
@@ -129,7 +127,9 @@ void EditorView::leftMouseButtonPress(QMouseEvent *event)
                     this->editorScene->addItem(edge_temp);
                     is_edge_temp_alive = true;
 
-                    this->input_socket_index = this->nodes[i]->input_sockets[j]->index;
+                    this->end_node = this->nodes[i];
+                    this->end_socket = this->nodes[i]->input_sockets[j];
+
                     return;
                 }
             }
@@ -149,6 +149,50 @@ void EditorView::LeftMouseButtonRelease(QMouseEvent *event)
         is_edge_temp_alive = false;
     }
 
+    QPoint pos = event->pos();
+    QPointF obj_pos = mapToScene(pos);
+
+    for(int i=0;i<this->nodes.length();i++){
+        if(this->nodes[i]->item->contains(obj_pos)){
+            for(int j=0;j<this->nodes[i]->input_sockets.length();j++){
+                if(this->nodes[i]->input_sockets[j]->contains(obj_pos)){
+                    this->end_node = this->nodes[i];
+                    this->end_socket = this->nodes[i]->input_sockets[j];
+                    addEdge(this->start_node,this->end_node,this->start_socket,this->end_socket);
+
+                    this->start_node = nullptr;
+                    this->end_node = nullptr;
+                    this->start_socket = nullptr;
+                    this->end_socket = nullptr;
+
+                    return;
+                }
+            }
+        }
+    }
+    for(int i=0;i<this->nodes.length();i++){
+        if(this->nodes[i]->item->contains(obj_pos)){
+            for(int j=0;j<this->nodes[i]->output_sockets.length();j++){
+                if(this->nodes[i]->output_sockets[j]->contains(obj_pos)){
+                    this->start_node = this->nodes[i];
+                    this->start_socket = this->nodes[i]->output_sockets[j];
+                    addEdge(this->start_node,this->end_node,this->start_socket,this->end_socket);
+
+                    this->start_node = nullptr;
+                    this->end_node = nullptr;
+                    this->start_socket = nullptr;
+                    this->end_socket = nullptr;
+
+                    return;
+                }
+            }
+        }
+    }
+    this->start_node = nullptr;
+    this->end_node = nullptr;
+    this->start_socket = nullptr;
+    this->end_socket = nullptr;
+
 
 
 
@@ -162,8 +206,33 @@ void EditorView::RightMouseButtonRelease(QMouseEvent *event)
     QGraphicsView::mouseReleaseEvent(event);
 }
 
+void EditorView::addEdge(Node *input_node, Node *output_node,
+                         NodeSocket *input_socket, NodeSocket *output_socket)
+{
+    // 这里的input和output是相对edge的，不是相对node的
+    if(input_node==nullptr ||output_node==nullptr ||
+            input_socket==nullptr ||output_socket==nullptr)
+        return;
+    if(input_node == output_node){
+        qDebug()<<"Warning: you can not connect node to itself";
+        return;
+    }
+    if(output_socket->is_connected==true){
+        qDebug()<<"Warning: this input socket had connected";
+        return;
+    }
+    output_socket->is_connected=true;
+    this->edge = new NodeEdge(input_node,output_node,
+                              input_socket,output_socket);
+    this->edge->setZValue(-1);
+    this->edges.append(this->edge);
+    this->editorScene->addItem(this->edge);
 
-void EditorView::addNode(QPoint pos)
+
+}
+
+
+void EditorView::addNode(int index,QPoint pos)
 {
     QPointF posF;
     pos = this->mapFromGlobal(pos);
@@ -173,6 +242,7 @@ void EditorView::addNode(QPoint pos)
     posF.setX(posF.x()-40);
     posF.setY(posF.y()-40);
     node->setPos(posF);
+    node->setIndex(index);
     this->nodes.push_back(node);
     this->editorScene->addItem(node->item);
 
@@ -260,7 +330,7 @@ void EditorView::contextMenuEvent(QContextMenuEvent *event)
     QAction *addNode1 = menu->addAction("Test-Node");
     connect(addNode1, &QAction::triggered, [=]()
     {
-        addNode(pos);
+        addNode(number++,pos);
     });
     menu->popup(pos);
 

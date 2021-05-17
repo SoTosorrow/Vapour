@@ -5,6 +5,7 @@ Node::Node(QWidget *parent)
 {
     qDebug()<<"Create: Test-node";
     this->item = new NodeItem("test");
+
     initSocket(2,1);
 }
 
@@ -29,6 +30,11 @@ void Node::operator=(const Node &node)
 void Node::setPos(QPointF pos)
 {
     this->item->setPos(pos);
+}
+
+void Node::setIndex(int index)
+{
+    this->index = index;
 }
 
 void Node::initSocket(int in, int out)

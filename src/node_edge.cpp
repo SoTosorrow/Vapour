@@ -1,51 +1,67 @@
 #include "node_edge.h"
 
-NodeEdge::NodeEdge(std::shared_ptr<Node> start_node,std::shared_ptr<Node> end_node,
-                   std::shared_ptr<NodeSocket> start_socket,std::shared_ptr<NodeSocket> end_socket,
+NodeEdge::NodeEdge(Node *start_node,Node *end_node,
+                   NodeSocket *start_socket,NodeSocket *end_socket,
                    QGraphicsItem *parent)
 //  为什么会偏离  加上了父级的位置？
     //:QGraphicsPathItem(parent)
 {
     Q_UNUSED(parent);
     qDebug()<<"Create: Edge";
-    this->node_pair = std::make_pair(start_node,end_node);
-    this->socket_pair = std::make_pair(start_socket,end_socket);
+    this->input_node = start_node;
+    this->output_node = end_node;
+    this->input_socket = start_socket;
+    this->output_socket = end_socket;
+
     this->start_socket_pos = start_socket->pos();
     this->end_socket_pos = end_socket->pos();
     this->start_pos = start_node->item->pos() + start_socket_pos;
     this->end_pos = end_node->item->pos() + end_socket_pos;
-    this->path = std::make_shared<QPainterPath>(start_pos);
+    this->path = QPainterPath(start_pos);
 
     this->setFlag(QGraphicsItem::ItemIsSelectable);
 
 }
-//NodeEdge::NodeEdge(std::shared_ptr<NodeSocket> start_socket,std::shared_ptr<NodeSocket> end_socket,
-//                   QGraphicsItem *parent)
-//    :QGraphicsPathItem(parent)
-//{
-//    this->node_pair = std::make_pair(start_socket->node_index,end_socket->node_index);
-//    this->socket_pair = std::make_pair(start_socket,end_socket);
 
-//}
 NodeEdge::NodeEdge(const NodeEdge &node_edge)
     :QGraphicsPathItem()
 {
-    this->node_pair = node_edge.node_pair;
-    this->socket_pair = node_edge.socket_pair;
+    this->index = node_edge.index;
+    this->input_node = node_edge.input_node;
+    this->output_node = node_edge.output_node;
+    this->input_socket = node_edge.input_socket;
+    this->output_socket = node_edge.output_socket;
+    this->start_pos = node_edge.start_pos;
+    this->end_pos = node_edge.end_pos;
+    this->start_socket_pos = node_edge.start_socket_pos;
+    this->end_socket_pos = node_edge.end_socket_pos;
+    this->path = node_edge.path;
 
 }
 void NodeEdge::operator=(const NodeEdge &node_edge)
 {
-    this->node_pair = node_edge.node_pair;
-    this->socket_pair = node_edge.socket_pair;
+    this->index = node_edge.index;
+    this->input_node = node_edge.input_node;
+    this->output_node = node_edge.output_node;
+    this->input_socket = node_edge.input_socket;
+    this->output_socket = node_edge.output_socket;
+    this->start_pos = node_edge.start_pos;
+    this->end_pos = node_edge.end_pos;
+    this->start_socket_pos = node_edge.start_socket_pos;
+    this->end_socket_pos = node_edge.end_socket_pos;
+    this->path = node_edge.path;
 }
 NodeEdge::~NodeEdge()
 {
     qDebug()<<"edge delete";
-    this->node_pair.first.reset();
-    this->node_pair.second.reset();
-    this->socket_pair.first.reset();
-    this->socket_pair.second.reset();
+    delete this->input_node;
+    this->input_node = nullptr;
+    delete this->output_node;
+    this->output_node = nullptr;
+    delete this->input_socket;
+    this->input_socket = nullptr;
+    delete this->output_socket;
+    this->output_socket = nullptr;
 
 }
 void NodeEdge::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -56,9 +72,9 @@ void NodeEdge::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     pen1.setWidth(2);
     QPen pen2(QColor("#FF0000"));
     pen2.setWidth(2);
-    this->start_pos = this->node_pair.first->item->pos() + start_socket_pos;
-    this->end_pos = this->node_pair.second->item->pos() + end_socket_pos;
-    path = std::make_shared<QPainterPath>(start_pos);
+    this->start_pos = this->input_node->item->pos() + start_socket_pos;
+    this->end_pos = this->output_node->item->pos() + end_socket_pos;
+    path = QPainterPath(start_pos);
 
 
     // Direct / Bezier
@@ -80,8 +96,8 @@ void NodeEdge::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
         distance *= -1;
     }
 
-    path->moveTo(start_pos);
-    path->cubicTo(start_pos.x() + distance,
+    path.moveTo(start_pos);
+    path.cubicTo(start_pos.x() + distance,
                   start_pos.y(),
                   end_pos.x() - distance,
                   end_pos.y(),
@@ -90,14 +106,14 @@ void NodeEdge::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 
     //path->lineTo(end_pos);
-    this->setPath(*path.get());
-    painter->drawPath(*path.get());
+    this->setPath(path);
+    painter->drawPath(path);
 
 }
 
 QRectF NodeEdge::boundingRect() const
 {
-    return this->path->boundingRect();
+    return this->path.boundingRect();
     //return this->shape().boundingRect();
 
 }

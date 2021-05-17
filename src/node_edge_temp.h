@@ -29,13 +29,11 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     QRectF boundingRect() const override;
 
-    //QPainterPath shape() const override;
 
 
     QPointF start_pos;
     QPointF end_pos;
-    std::shared_ptr<QPainterPath> path;
-
+    QPainterPath path;
 
 };
 #endif // NODEEDGETEMP_H

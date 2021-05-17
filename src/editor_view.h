@@ -19,6 +19,7 @@
 #include"editor_scene.h"
 #include"node.h"
 #include"node_edge_temp.h"
+#include"node_edge.h"
 
 
 class EditorView : public QGraphicsView
@@ -46,6 +47,8 @@ public:
 
 //    void addNode(QPoint pos);
 //    void addNode();
+    void addEdge(Node* input_node,Node* output_node,
+                 NodeSocket* input_socket,NodeSocket* output_socket);
 
     void buildGraph();
     void ergodicGraph();
@@ -60,8 +63,14 @@ public:
 public:
     EditorScene* editorScene;    //绘制背景
     QList<Node*> nodes;
+    QList<NodeEdge*> edges;
     NodeEdgeTemp* edge_temp;
-    // edges
+    NodeEdge *edge;
+
+    Node* start_node;
+    Node* end_node;
+    NodeSocket* start_socket;
+    NodeSocket* end_socket;
 
     QMenu *menu;
 
@@ -70,16 +79,9 @@ public:
     int number = 100;   // prime index
 
 
-    bool output_ready = false;
-    bool input_ready = false;
-    int input_node_index;
-    int input_socket_index;
-    int output_node_index;
-    int output_socket_index;
-
 private slots:
     void addNode();
-    void addNode(QPoint pos);
+    void addNode(int index,QPoint pos);
 
 private:
     // 缩放参数

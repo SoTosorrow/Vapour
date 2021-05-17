@@ -17,11 +17,9 @@ class NodeEdge : public QGraphicsPathItem
 {
 public:
     NodeEdge()=default;
-    NodeEdge(std::shared_ptr<Node> start_node,std::shared_ptr<Node> end_node,
-             std::shared_ptr<NodeSocket> start_socket,std::shared_ptr<NodeSocket> end_socket,
+    NodeEdge(Node *start_node,Node *end_node,
+             NodeSocket *start_socket,NodeSocket *end_socket,
              QGraphicsItem *parent = nullptr);
-//    NodeEdge(std::shared_ptr<NodeSocket> *start_socket,std::shared_ptr<NodeSocket> *end_socket,
-//             QGraphicsItem *parent = nullptr);
     NodeEdge(const NodeEdge &node_edge);
     void operator=(const NodeEdge &node_edge);
     ~NodeEdge();
@@ -35,16 +33,18 @@ public:
     void setStartPos(NodeSocket *start_socket);
     void setEndPos(NodeSocket *end_socket);
 
-    QPointF start_pos;
-    QPointF end_pos;
-    std::shared_ptr<QPainterPath> path;
+
 
 
     int index;
-    std::pair<std::shared_ptr<Node>,std::shared_ptr<Node>> node_pair;
-    std::pair<std::shared_ptr<NodeSocket>,std::shared_ptr<NodeSocket>> socket_pair;
+    Node* input_node;
+    Node* output_node;
+    NodeSocket *input_socket;
+    NodeSocket *output_socket;
 
-
+    QPainterPath path;
+    QPointF start_pos;
+    QPointF end_pos;
     QPointF start_socket_pos;
     QPointF end_socket_pos;
 
