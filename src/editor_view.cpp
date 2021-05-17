@@ -71,6 +71,12 @@ void EditorView::mouseReleaseEvent(QMouseEvent *event){
 }
 void EditorView::mouseMoveEvent(QMouseEvent *event)
 {
+    if(is_edge_temp_alive){
+        QPointF pos = mapToScene(event->pos());
+
+        this->edge_temp->setEndPos(pos);
+        this->editorScene->update();
+    }
     QGraphicsView::mouseMoveEvent(event);
 }
 void EditorView::middleMouseButtonPress(QMouseEvent *event){
@@ -97,8 +103,38 @@ void EditorView::middleMouseButtonRelease(QMouseEvent *event){
 void EditorView::leftMouseButtonPress(QMouseEvent *event)
 {
     QGraphicsView::mousePressEvent(event);
+    QPoint pos = event->pos();
+    QPointF obj_pos = mapToScene(pos);
 
+    for(int i=0;i<this->nodes.length();i++){
+        if(this->nodes[i]->item->contains(obj_pos)){
+            this->output_node_index = this->nodes[i]->index;
 
+            // 如果选中了output socket，则产生虚拟连线
+            for(int j=0;j<this->nodes[i]->output_socket_number;j++){
+                if(this->nodes[i]->output_sockets[j]->contains(obj_pos)){
+                    qDebug()<<"Click: OutSocket:"<<this->nodes[i]->index<<">"<<this->nodes[i]->output_sockets[j]->index;
+                    this->edge_temp = new NodeEdgeTemp(obj_pos,obj_pos);
+                    this->editorScene->addItem(edge_temp);
+                    is_edge_temp_alive = true;
+
+                    this->output_socket_index = this->nodes[i]->output_sockets[j]->index;
+                    return;
+                }
+            }
+            for(int j=0;j<this->nodes[i]->input_socket_number;j++){
+                if(this->nodes[i]->input_sockets[j]->contains(obj_pos)){
+                    qDebug()<<"Click: OutSocket:"<<this->nodes[i]->index<<">"<<this->nodes[i]->input_sockets[j]->index;
+                    this->edge_temp = new NodeEdgeTemp(obj_pos,obj_pos);
+                    this->editorScene->addItem(edge_temp);
+                    is_edge_temp_alive = true;
+
+                    this->input_socket_index = this->nodes[i]->input_sockets[j]->index;
+                    return;
+                }
+            }
+        }
+    }
 
 
 }
@@ -107,6 +143,11 @@ void EditorView::leftMouseButtonPress(QMouseEvent *event)
 void EditorView::LeftMouseButtonRelease(QMouseEvent *event)
 {
     QGraphicsView::mouseReleaseEvent(event);
+    if(is_edge_temp_alive){
+        this->edge_temp->hide();
+        this->editorScene->removeItem(this->edge_temp);
+        is_edge_temp_alive = false;
+    }
 
 
 
@@ -152,7 +193,6 @@ void EditorView::buildGraph()
 {
 
 }
-
 void EditorView::ergodicGraph()
 {
 
@@ -210,8 +250,6 @@ void EditorView::contextMenuEvent(QContextMenuEvent *event)
     pos2 = this->mapToGlobal(pos2);
 
     menu = new QMenu();
-
-
     QString qss = "QMenu { background-color:#999999; \
                             padding:5px;\
                             }"
@@ -219,22 +257,16 @@ void EditorView::contextMenuEvent(QContextMenuEvent *event)
                             ;}";
     menu->setStyleSheet(qss);
 
-
-
-    // QAction *addNode1 = menu->addAction("原点Node");
     QAction *addNode1 = menu->addAction("Test-Node");
-    QAction *addNode2 = menu->addAction("Test-Node");
-    QAction *addNode3 = menu->addAction("Test-Node");
-    QAction *addNode4 = menu->addAction("Test-Node");
-
-
-    menu->popup(pos);
-
-    // connect(addNode1,SIGNAL(triggered()),this,SLOT(addNode()));
     connect(addNode1, &QAction::triggered, [=]()
     {
         addNode(pos);
     });
+    menu->popup(pos);
+
+
+    // QAction *addNode1 = menu->addAction("原点Node");
+    // connect(addNode1,SIGNAL(triggered()),this,SLOT(addNode()));
     // std::bind
     // connect(addNode2, &QAction::triggered, this, std::bind(addNode(), pos));
 }

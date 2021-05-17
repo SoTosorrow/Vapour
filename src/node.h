@@ -7,6 +7,7 @@
 #include<QList>
 
 #include"node_item.h"
+#include"node_socket.h"
 
 class Node : public QWidget
 {
@@ -18,6 +19,7 @@ public:
     void operator=(const Node &node);
 
     void setPos(QPointF pos);
+    void initSocket(int in,int out);
 
 
 public:
@@ -26,6 +28,11 @@ public:
 //    QList<Node*> output_nodes;
 //    Node* input_node;
 //    Node* output_node;
+
+    QList<NodeSocket*> input_sockets;
+    QList<NodeSocket*> output_sockets;
+    int input_socket_number;
+    int output_socket_number;
 
     NodeItem* item;
 

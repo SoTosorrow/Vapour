@@ -18,6 +18,7 @@
 
 #include"editor_scene.h"
 #include"node.h"
+#include"node_edge_temp.h"
 
 
 class EditorView : public QGraphicsView
@@ -59,6 +60,7 @@ public:
 public:
     EditorScene* editorScene;    //绘制背景
     QList<Node*> nodes;
+    NodeEdgeTemp* edge_temp;
     // edges
 
     QMenu *menu;

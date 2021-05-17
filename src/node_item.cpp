@@ -81,9 +81,9 @@ QRectF NodeItem::boundingRect() const{
 
 bool NodeItem::contains(const QPointF &point) const
 {
-    qreal right = this->pos().x() + width;
+    qreal right = this->pos().x() + width+10;
     qreal bottom = this->pos().y() + height;
-    qreal left = this->pos().x();
+    qreal left = this->pos().x()-10;
     qreal top = this->pos().y();
     if(point.x()>left&&point.x()<right && point.y()>top&&point.y()<bottom){
         return true;
