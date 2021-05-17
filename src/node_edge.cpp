@@ -54,13 +54,10 @@ void NodeEdge::operator=(const NodeEdge &node_edge)
 NodeEdge::~NodeEdge()
 {
     qDebug()<<"edge delete";
-    delete this->input_node;
+    this->output_socket->is_connected=false;
     this->input_node = nullptr;
-    delete this->output_node;
     this->output_node = nullptr;
-    delete this->input_socket;
     this->input_socket = nullptr;
-    delete this->output_socket;
     this->output_socket = nullptr;
 
 }

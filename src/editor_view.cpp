@@ -32,6 +32,10 @@ void EditorView::keyPressEvent(QKeyEvent *event){
         this->addNode(number++,pos);
         return;
     }
+    if(event->key() == Qt::Key_Delete){
+        deleteItem();
+        return;
+    }
 
     QGraphicsView::keyPressEvent(event);
 }
@@ -228,6 +232,29 @@ void EditorView::addEdge(Node *input_node, Node *output_node,
     this->edges.append(this->edge);
     this->editorScene->addItem(this->edge);
 
+
+}
+
+void EditorView::deleteItem()
+{
+    QList<QGraphicsItem*> item_list = this->editorScene->selectedItems();
+    for(int i=0;i<item_list.length();i++){
+        for(int j=0;j<this->nodes.length();j++){
+            if(this->nodes[j]->item == item_list[i]){
+                delete this->nodes[j];
+                this->nodes.removeOne(this->nodes[j]);
+                this->editorScene->removeItem(item_list[i]);
+                continue;
+            }
+        }
+        for(int j=0;j<this->edges.length();j++){
+            if(this->edges[j] == item_list[i]){
+                delete this->edges[j];
+                this->edges.removeOne(this->edges[j]);
+                this->editorScene->removeItem(item_list[i]);
+            }
+        }
+    }
 
 }
 
