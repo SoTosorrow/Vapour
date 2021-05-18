@@ -18,6 +18,7 @@ class Node : public QWidget
 {
 public:
     Node(QWidget *parent=nullptr);
+    Node(int type,QWidget *parent=nullptr);
     ~Node();
 
     Node(const Node& node,QWidget *parent=nullptr);

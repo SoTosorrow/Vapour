@@ -9,9 +9,52 @@ Node::Node(QWidget *parent)
     initSocket(2,1);
 }
 
+Node::Node(int type, QWidget *parent)
+    :QWidget(parent)
+{
+    if(type == 0){
+        this->item = new NodeItemNumberInput();
+        initSocket(0,1);
+        return;
+    }
+    if(type == 1){
+        this->item = new NodeItemNumberOutput();
+        initSocket(1,0);
+        return;
+    }
+    if(type == 2){
+        this->item = new NodeItemNumberAdd();
+        initSocket(2,1);
+        return;
+    }
+    if(type == 3){
+        this->item = new NodeItemNumberSub();
+        initSocket(2,1);
+        return;
+    }
+    if(type == 4){
+        this->item = new NodeItemNumberMul();
+        initSocket(2,1);
+        return;
+    }
+    if(type == 5){
+        this->item = new NodeItemNumberDiv();
+        initSocket(2,1);
+        return;
+    }
+}
+
 Node::~Node()
 {
     qDebug()<<"Delete: Node";
+    qDeleteAll(input_nodes);
+    qDeleteAll(output_nodes);
+    qDeleteAll(input_sockets);
+    qDeleteAll(output_sockets);
+    this->input_nodes.clear();
+    this->output_nodes.clear();
+    this->input_sockets.clear();
+    this->output_sockets.clear();
     delete this->item;
     this->item=nullptr;
 }

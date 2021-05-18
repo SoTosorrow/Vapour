@@ -249,12 +249,12 @@ void EditorView::addEdge(Node *input_node, Node *output_node,
 
 void EditorView::deleteItem()
 {
-    qDebug()<<this->editorScene->items().count();
+    //qDebug()<<this->editorScene->items().count();
     QList<QGraphicsItem*> item_list = this->editorScene->selectedItems();
     for(int i=0;i<item_list.length();i++){
         for(int j=0;j<this->nodes.length();j++){
             if(this->nodes[j]->item == item_list[i]){
-                delete this->nodes[j];
+                //delete this->nodes[j];
                 this->nodes.removeOne(this->nodes[j]);
                 this->editorScene->removeItem(item_list[i]);
                 continue;
@@ -266,13 +266,13 @@ void EditorView::deleteItem()
                 this->edges[j]->output_node->input_nodes.removeOne(this->edges[j]->input_node);
                 this->edges[j]->input_socket->is_connected = false;
                 this->edges[j]->output_socket->is_connected = false;
-                delete this->edges[j];
+                //delete this->edges[j];
                 this->edges.removeOne(this->edges[j]);
                 this->editorScene->removeItem(item_list[i]);
             }
         }
     }
-    qDebug()<<this->editorScene->items().count();
+    //qDebug()<<this->editorScene->items().count();
 
 }
 
@@ -316,6 +316,22 @@ void EditorView::addNode(int index,QPoint pos)
     this->editorScene->addItem(node->item);
 
 
+}
+
+void EditorView::addNode(int index, int type, QPoint pos)
+{
+    QPointF posF;
+    pos = this->mapFromGlobal(pos);
+    posF = this->mapToScene(pos);
+
+    Node* node = new Node(type);
+    posF.setX(posF.x()-40);
+    posF.setY(posF.y()-40);
+    node->setPos(posF);
+    node->setIndex(index);
+    node->setTitle(QString::number(index));
+    this->nodes.push_back(node);
+    this->editorScene->addItem(node->item);
 }
 
 void EditorView::addNode()
@@ -421,10 +437,40 @@ void EditorView::contextMenuEvent(QContextMenuEvent *event)
                             ;}";
     menu->setStyleSheet(qss);
 
-    QAction *addNode1 = menu->addAction("Test-Node");
-    connect(addNode1, &QAction::triggered, [=]()
+    QAction *addNodeTest = menu->addAction("Test-Node");
+    connect(addNodeTest, &QAction::triggered, [=]()
     {
         addNode(number++,pos);
+    });
+    QAction *addNode0 = menu->addAction("Number-Input");
+    connect(addNode0, &QAction::triggered, [=]()
+    {
+        addNode(number++,0,pos);
+    });
+    QAction *addNode1 = menu->addAction("Number-Output");
+    connect(addNode1, &QAction::triggered, [=]()
+    {
+        addNode(number++,1,pos);
+    });
+    QAction *addNode2 = menu->addAction("Number-Add");
+    connect(addNode2, &QAction::triggered, [=]()
+    {
+        addNode(number++,2,pos);
+    });
+    QAction *addNode3 = menu->addAction("Number-Sub");
+    connect(addNode3, &QAction::triggered, [=]()
+    {
+        addNode(number++,3,pos);
+    });
+    QAction *addNode4 = menu->addAction("Number-Mul");
+    connect(addNode4, &QAction::triggered, [=]()
+    {
+        addNode(number++,4,pos);
+    });
+    QAction *addNode5 = menu->addAction("Number-Div");
+    connect(addNode5, &QAction::triggered, [=]()
+    {
+        addNode(number++,5,pos);
     });
     menu->popup(pos);
 

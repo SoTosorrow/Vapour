@@ -85,6 +85,7 @@ public:
 private slots:
     void addNode();
     void addNode(int index,QPoint pos);
+    void addNode(int index,int type,QPoint pos);
 
 private:
     // 缩放参数

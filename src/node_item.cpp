@@ -8,7 +8,9 @@ NodeItem::NodeItem(QString node_name)
     this->text =new QGraphicsTextItem(this->title,this);
     this->text->setDefaultTextColor(this->title_color);
     this->text->setPos(4,2);
-    //this->proxyContent = new QGraphicsProxyWidget(this);
+    this->proxyContent = new QGraphicsProxyWidget(this);
+
+
     this->setFlag(QGraphicsItem::ItemIsSelectable);
     this->setFlag(QGraphicsItem::ItemIsMovable);
 }
@@ -26,6 +28,12 @@ void NodeItem::operator=(const NodeItem &node_item){
 NodeItem::~NodeItem(){
     delete this->text;
     this->text=nullptr;
+    delete this->path_title;
+    this->path_title = nullptr;
+    delete this->path_data;
+    this->path_data = nullptr;
+    delete this->path_outline;
+    this->path_outline = nullptr;
 }
 
 void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){

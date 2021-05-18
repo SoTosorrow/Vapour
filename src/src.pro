@@ -14,8 +14,10 @@ SOURCES += \
     editor_win.cpp \
     main.cpp \
     node.cpp \
+    node_data.cpp \
     node_edge.cpp \
     node_edge_temp.cpp \
+    node_inter.cpp \
     node_item.cpp \
     node_socket.cpp
 
@@ -24,8 +26,10 @@ HEADERS += \
     editor_view.h \
     editor_win.h \
     node.h \
+    node_data.h \
     node_edge.h \
     node_edge_temp.h \
+    node_inter.h \
     node_item.h \
     node_socket.h \
     types.h
