@@ -36,3 +36,5 @@ edge和edgetemp有时不一样
 节点QList的清空以及内存检查  
 QGraphicsScene::removeItem: item 0x2c94ee0's scene (0x0) is different from this scene (0x2bdd7d0)  
 单片机类型的编写  
+右键菜单的QAction会造成内存泄漏  
+terminate called without an active exception  

@@ -440,46 +440,60 @@ void EditorView::contextMenuEvent(QContextMenuEvent *event)
     QString qss = "QMenu { background-color:#999999; \
                             padding:5px;\
                             }"
-                   "QMenu::item:selected {background-color : rgb(50,50,50)\
-                            ;}";
+                "QMenu::item:selected {background-color : rgb(50,50,50)\
+                            ;}"
+                "QMenu::separator {\
+                            height: 2px;\
+                            margin-left: 10px;\
+                            margin-right: 10px;\
+                            }";
+
     menu->setStyleSheet(qss);
 
-//    QAction *addNodeTest = menu->addAction("Test-Node");
-//    connect(addNodeTest, &QAction::triggered, [=]()
-//    {
-//        addNode(number++,pos);
-//    });
-    QAction *addNode0 = menu->addAction("Number-Input");
-    connect(addNode0, &QAction::triggered, [=]()
+
+    qDeleteAll(action);
+    action.clear();
+    action.append(menu->addAction("Number-Input"));
+    connect(action[0], &QAction::triggered, [=]()
     {
         addNode(number++,0,pos);
     });
-    QAction *addNode1 = menu->addAction("Number-Output");
-    connect(addNode1, &QAction::triggered, [=]()
+    action.append(menu->addAction("Number-Output"));
+    connect(action[1], &QAction::triggered, [=]()
     {
         addNode(number++,1,pos);
     });
-    QAction *addNode2 = menu->addAction("Number-Add");
-    connect(addNode2, &QAction::triggered, [=]()
+    menu->addSeparator();
+    action.append(menu->addAction("Number-Add"));
+    connect(action[2], &QAction::triggered, [=]()
     {
         addNode(number++,2,pos);
     });
-    QAction *addNode3 = menu->addAction("Number-Sub");
-    connect(addNode3, &QAction::triggered, [=]()
+    action.append(menu->addAction("Number-Sub"));
+    connect(action[3], &QAction::triggered, [=]()
     {
         addNode(number++,3,pos);
     });
-    QAction *addNode4 = menu->addAction("Number-Mul");
-    connect(addNode4, &QAction::triggered, [=]()
+    action.append(menu->addAction("Number-Mul"));
+    connect(action[4], &QAction::triggered, [=]()
     {
         addNode(number++,4,pos);
     });
-    QAction *addNode5 = menu->addAction("Number-Div");
-    connect(addNode5, &QAction::triggered, [=]()
+    action.append(menu->addAction("Number-Div"));
+    connect(action[5], &QAction::triggered, [=]()
     {
         addNode(number++,5,pos);
     });
+
+    QMenu *childMenu = new QMenu("child");
+    QAction *addNoden = childMenu->addAction("JustAShow");
+    Q_UNUSED(addNoden);
+//    //addNoden->setMenu(childMenu);
+    childMenu->setStyleSheet(qss);
+    menu->addMenu(childMenu);
     menu->popup(pos);
+    //menu->exec(QCursor::pos());
+
 
 
     // QAction *addNode1 = menu->addAction("原点Node");

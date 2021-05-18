@@ -77,6 +77,7 @@ public:
     NodeSocket* end_socket;
 
     QMenu *menu;
+    QList<QAction*> action;
 
 
     bool is_edge_temp_alive = false;
