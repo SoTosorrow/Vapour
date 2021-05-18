@@ -18,14 +18,21 @@ NodeItem::NodeItem(QString node_name)
 NodeItem::NodeItem(const NodeItem &node_item){
     this->text = node_item.text;
     this->title_color = node_item.title_color;
-    //this->proxyContent = node_item.proxyContent;
+    this->proxyContent = node_item.proxyContent;
 }
 void NodeItem::operator=(const NodeItem &node_item){
     this->text = node_item.text;
     this->title_color = node_item.title_color;
-    //this->proxyContent = node_item.proxyContent;
+    this->proxyContent = node_item.proxyContent;
 }
 NodeItem::~NodeItem(){
+    delete this->inter;
+    this->inter=nullptr;
+    delete this->inter;
+    this->inter=nullptr;
+    delete this->proxyContent;
+    this->proxyContent=nullptr;
+
     delete this->text;
     this->text=nullptr;
     delete this->path_title;
@@ -67,6 +74,9 @@ void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     else{
         painter->setPen(QPen(QColor("#FFFFA637")));
     }
+    if(!this->canCompute){
+        painter->setPen(QPen(QColor(Qt::red)));
+    }
     painter->setBrush(Qt::NoBrush);
     painter->drawPath(path_outline->simplified());
 
@@ -104,3 +114,4 @@ void NodeItem::setTitle(QString title)
 {
     this->text->setPlainText(title);
 }
+

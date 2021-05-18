@@ -51,10 +51,12 @@ Node::~Node()
     qDeleteAll(output_nodes);
     qDeleteAll(input_sockets);
     qDeleteAll(output_sockets);
+    qDeleteAll(connect_sockets);
     this->input_nodes.clear();
     this->output_nodes.clear();
     this->input_sockets.clear();
     this->output_sockets.clear();
+    this->connect_sockets.clear();
     delete this->item;
     this->item=nullptr;
 }
@@ -98,6 +100,23 @@ void Node::initSocket(int in, int out)
         socket2->setIndex(i);
         socket2->setType(SOCKET_OUTPUT);
         output_sockets.append(socket2);
+
+    }
+    this->item->initDataNum(in,out);
+}
+
+void Node::transferData()
+{
+    // qDebug()<<"transfer number"<<this->output_nodes.length();
+    // 对于每一个要传输数据的节点
+    for(int i=0;i<this->output_nodes.length();i++){
+        // 判断要把哪项数据传给对方QList中那项
+        //qDebug()<<this->output_nodes[i]->index<<this->connect_sockets[i]->index;
+        this->output_nodes[i]->item->input_datas[this->connect_sockets[i]->index] = this->item->output_datas[0];
+        //qDebug()<<this->output_nodes[i]->index<<output_sockets[i]->connect_sockets[i]->index;
+        //this->output_nodes[i]->item->input_datas[output_sockets[i]->connect_sockets[i]->index] = this->item->output_datas[0];
+
+
 
     }
 }

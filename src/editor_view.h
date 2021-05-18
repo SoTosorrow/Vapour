@@ -51,6 +51,7 @@ public:
     void addEdge(Node* input_node,Node* output_node,
                  NodeSocket* input_socket,NodeSocket* output_socket);
     void deleteItem();
+    //void deleteEdge(Node *node);
     void QueryNode();
 
     void buildGraph();

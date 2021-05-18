@@ -28,7 +28,8 @@ void NodeSocket::operator=(const NodeSocket &socket){
 
 NodeSocket::~NodeSocket()
 {
-
+//    qDeleteAll(connect_sockets);
+//    connect_sockets.clear();
 }
 
 void NodeSocket::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

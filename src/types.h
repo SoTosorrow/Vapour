@@ -26,5 +26,9 @@ enum ItemType{
 
 };
 
+struct NumberData{
+    double number;
+};
+
 
 #endif // TYPES_H

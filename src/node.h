@@ -27,6 +27,7 @@ public:
     void setPos(QPointF pos);
     void setIndex(int index);
     void initSocket(int in,int out);
+    void transferData();
     void setTitle(QString title){
         this->item->setTitle(title);
     }
@@ -43,8 +44,13 @@ public:
 
     QList<NodeSocket*> input_sockets;
     QList<NodeSocket*> output_sockets;
+    QList<NodeSocket*> connect_sockets;
     int input_socket_number;
     int output_socket_number;
+
+    bool visited = false;
+    bool canCompute = true;
+
 
     NodeItem* item;
 

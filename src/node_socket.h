@@ -34,6 +34,8 @@ public:
     enum SOCKET_TYPE socket_type;
     int index;
     bool is_connected = false;
+    //QList<NodeSocket*> connect_sockets;
+
 
 
 private:

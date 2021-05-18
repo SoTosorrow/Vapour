@@ -27,8 +27,19 @@ public:
     int type() const override {return Type_NodeItem;}
 
     void setTitle(QString title);
-//    virtual void handle(){qDebug()<<"handle";}
-//    virtual void transferData(){qDebug()<<"transferData";}
+    virtual void initDataNum(int input_data_number,int output_data_number){
+        for(int i=0;i<input_data_number;i++){
+            this->input_datas.append({0});
+        }
+        for(int i=0;i<output_data_number;i++){
+            this->output_datas.append({0});
+        }
+    }
+    virtual void initData(){}
+    virtual void handle(){}
+
+    QList<NumberData> input_datas;
+    QList<NumberData> output_datas;
 
 
 public:
@@ -41,6 +52,10 @@ public:
     QPainterPath *path_title;
     QPainterPath *path_data;
     QPainterPath *path_outline;
+
+    int input_data_number=0;
+    int output_data_number=0;
+    bool canCompute = true;
 
 public:
     float width = 180; // 节点大小
@@ -65,6 +80,27 @@ public:
         delete inter;
         this->inter = nullptr;
     }
+    void initDataNum(int input_data_number,int output_data_number) override{
+        this->input_data_number = input_data_number;
+        this->output_data_number = output_data_number;
+        for(int i=0;i<input_data_number;i++){
+            this->input_datas.append({0});
+        }
+        for(int i=0;i<output_data_number;i++){
+            this->output_datas.append({0});
+        }
+    }
+    void initData() override{
+        for(int i=0;i<input_datas.length();i++){
+            this->input_datas[i] = {this->inter->edit->text().toDouble()};
+        }
+        for(int i=0;i<output_datas.length();i++){
+            this->output_datas[i] = {this->inter->edit->text().toDouble()};
+        }
+    }
+    void handle() override{
+    }
+
     int type() const override {return Type_NodeItemNumber;}
 public:
     NodeInterInput* inter;
@@ -84,6 +120,27 @@ public:
     ~NodeItemNumberOutput(){
         delete inter;
         this->inter = nullptr;
+    }
+    void initDataNum(int input_data_number,int output_data_number) override{
+        this->input_data_number = input_data_number;
+        this->output_data_number = output_data_number;
+        for(int i=0;i<input_data_number;i++){
+            this->input_datas.append({0});
+        }
+        for(int i=0;i<output_data_number;i++){
+            this->output_datas.append({0});
+        }
+    }
+    void initData() override{
+//        for(int i=0;i<input_datas.length();i++){
+//            this->input_datas[i]={0};
+//        }
+//        for(int i=0;i<output_datas.length();i++){
+//            this->output_datas[i]={0};
+//        }
+    }
+    void handle() override{
+        this->inter->edit->setText(QString::number(this->input_datas[0].number,10,4));
     }
     int type() const override {return Type_NodeItemOutput;}
 public:
@@ -105,6 +162,30 @@ public:
         delete inter;
         this->inter = nullptr;
     }
+    void initDataNum(int input_data_number,int output_data_number) override{
+        this->input_data_number = input_data_number;
+        this->output_data_number = output_data_number;
+        for(int i=0;i<input_data_number;i++){
+            this->input_datas.append({0});
+        }
+        for(int i=0;i<output_data_number;i++){
+            this->output_datas.append({0});
+        }
+    }
+    void initData() override{
+//        for(int i=0;i<input_datas.length();i++){
+//            this->input_datas[i]={0};
+//        }
+//        for(int i=0;i<output_datas.length();i++){
+//            this->output_datas[i]={0};
+//        }
+//        this->input_datas[0].number =0;
+//        this->input_datas[1].number =0;
+    }
+    void handle() override{
+        // in2 out1
+        this->output_datas[0].number = this->input_datas[0].number + this->input_datas[1].number;
+    }
     int type() const override {return Type_NodeItemAdd;}
 public:
     NodeInterAdd* inter;
@@ -124,6 +205,22 @@ public:
     ~NodeItemNumberMul(){
         delete inter;
         this->inter = nullptr;
+    }
+    void initDataNum(int input_data_number,int output_data_number) override{
+        this->input_data_number = input_data_number;
+        this->output_data_number = output_data_number;
+        for(int i=0;i<input_data_number;i++){
+            this->input_datas.append({0});
+        }
+        for(int i=0;i<output_data_number;i++){
+            this->output_datas.append({0});
+        }
+    }
+    void initData() override{
+    }
+    void handle() override{
+        // in2 out1
+        this->output_datas[0].number = this->input_datas[0].number * this->input_datas[1].number;
     }
     int type() const override {return Type_NodeItemMul;}
 public:
@@ -145,6 +242,23 @@ public:
         delete inter;
         this->inter = nullptr;
     }
+    void initDataNum(int input_data_number,int output_data_number) override{
+        this->input_data_number = input_data_number;
+        this->output_data_number = output_data_number;
+        for(int i=0;i<input_data_number;i++){
+            this->input_datas.append({0});
+        }
+        for(int i=0;i<output_data_number;i++){
+            this->output_datas.append({0});
+        }
+    }
+    void initData() override{
+
+    }
+    void handle() override{
+        // in2 out1
+        this->output_datas[0].number = this->input_datas[0].number - this->input_datas[1].number;
+    }
     int type() const override {return Type_NodeItemSub;}
 public:
     NodeInterSub* inter;
@@ -164,6 +278,23 @@ public:
     ~NodeItemNumberDiv(){
         delete inter;
         this->inter = nullptr;
+    }
+    void initDataNum(int input_data_number,int output_data_number) override{
+        this->input_data_number = input_data_number;
+        this->output_data_number = output_data_number;
+        for(int i=0;i<input_data_number;i++){
+            this->input_datas.append({0});
+        }
+        for(int i=0;i<output_data_number;i++){
+            this->output_datas.append({0});
+        }
+    }
+    void initData() override{
+
+    }
+    void handle() override{
+        // in2 out1
+        this->output_datas[0].number = this->input_datas[0].number / this->input_datas[1].number;
     }
     int type() const override {return Type_NodeItemDiv;}
 public:

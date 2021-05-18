@@ -29,7 +29,7 @@ EditorView::~EditorView()
 void EditorView::keyPressEvent(QKeyEvent *event){
     QPoint pos = this->cursor().pos();
     if((event->modifiers()== Qt::ShiftModifier) && event->key() == Qt::Key_A){
-        this->addNode(number++,pos);
+        this->addNode(number++,0,pos);
         return;
     }
     if((event->modifiers()== Qt::ShiftModifier) && event->key() == Qt::Key_Q){
@@ -238,6 +238,8 @@ void EditorView::addEdge(Node *input_node, Node *output_node,
     output_node->input_nodes.append(input_node);
     // 连线开始处的节点拥有新的输出
     input_node->output_nodes.append(output_node);
+    // 该socket可以连接多个socket，记录了连接的socket的index
+    input_node->connect_sockets.append(output_socket);
     this->edge = new NodeEdge(input_node,output_node,
                               input_socket,output_socket);
     this->edge->setZValue(-1);
@@ -267,6 +269,8 @@ void EditorView::deleteItem()
                 this->edges[j]->input_socket->is_connected = false;
                 this->edges[j]->output_socket->is_connected = false;
                 //delete this->edges[j];
+
+                this->edges[j]->input_node->connect_sockets.removeOne(this->edges[j]->output_socket);
                 this->edges.removeOne(this->edges[j]);
                 this->editorScene->removeItem(item_list[i]);
             }
@@ -362,7 +366,10 @@ void EditorView::buildGraph()
 
     qDebug()<<"topological-sort";
     while(!queue.empty()){
-        qDebug()<<queue[0]->index;
+        qDebug()<<"compute: "<<queue[0]->index;
+        queue[0]->item->initData();
+        queue[0]->item->handle();
+        queue[0]->transferData();
         for(int k=0;k<queue[0]->output_nodes.length();k++){
             queue[0]->output_nodes[k]->input_vaild--;
             if(queue[0]->output_nodes[k]->input_vaild == 0){
@@ -437,11 +444,11 @@ void EditorView::contextMenuEvent(QContextMenuEvent *event)
                             ;}";
     menu->setStyleSheet(qss);
 
-    QAction *addNodeTest = menu->addAction("Test-Node");
-    connect(addNodeTest, &QAction::triggered, [=]()
-    {
-        addNode(number++,pos);
-    });
+//    QAction *addNodeTest = menu->addAction("Test-Node");
+//    connect(addNodeTest, &QAction::triggered, [=]()
+//    {
+//        addNode(number++,pos);
+//    });
     QAction *addNode0 = menu->addAction("Number-Input");
     connect(addNode0, &QAction::triggered, [=]()
     {
