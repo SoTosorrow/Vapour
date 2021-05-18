@@ -14,11 +14,13 @@ SOURCES += \
     editor_win.cpp \
     main.cpp \
     node.cpp \
-    node_data.cpp \
+    shader/node_shader.cpp \
+    shader/node_shader_content.cpp \
+    unuse/node_data.cpp \
     node_edge.cpp \
     node_edge_temp.cpp \
-    node_inter.cpp \
-    node_item.cpp \
+    number/node_inter.cpp \
+    number/node_item.cpp \
     node_socket.cpp
 
 HEADERS += \
@@ -26,11 +28,13 @@ HEADERS += \
     editor_view.h \
     editor_win.h \
     node.h \
-    node_data.h \
+    shader/node_shader.h \
+    shader/node_shader_content.h \
+    unuse/node_data.h \
     node_edge.h \
     node_edge_temp.h \
-    node_inter.h \
-    node_item.h \
+    number/node_inter.h \
+    number/node_item.h \
     node_socket.h \
     types.h
 

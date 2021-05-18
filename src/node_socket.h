@@ -15,7 +15,7 @@
 class NodeSocket:public QGraphicsItem
 {
 public:
-    NodeSocket(QGraphicsItem *parent = nullptr);
+    NodeSocket(DATA_TYPE data_type=DATA_NUMBER,QGraphicsItem *parent = nullptr);
     NodeSocket(const NodeSocket &socket,QGraphicsItem *parent = nullptr);
     ~NodeSocket();
     void operator=(const NodeSocket &socket);
@@ -29,10 +29,12 @@ public:
 
 
     void setType(SOCKET_TYPE type);
+    void setDataType(DATA_TYPE type);
     void setIndex(int index);
 
     enum SOCKET_TYPE socket_type;
-    int index;
+    enum DATA_TYPE data_type;
+    int index=-1;
     bool is_connected = false;
     //QList<NodeSocket*> connect_sockets;
 

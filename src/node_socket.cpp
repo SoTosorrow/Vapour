@@ -1,10 +1,16 @@
 #include "node_socket.h"
 
-NodeSocket::NodeSocket(QGraphicsItem *parent): QGraphicsItem(parent)
+NodeSocket::NodeSocket(DATA_TYPE data_type, QGraphicsItem *parent): QGraphicsItem(parent)
 {
     //this->index = 0;
     //type = SOCKET_INPUT;
-    color_basic = QColor(Qt::yellow);//"#FFFF7700"
+    setDataType(data_type);
+    if(data_type == DATA_NUMBER){
+        color_basic = QColor(Qt::yellow);
+    }
+    if(data_type == DATA_SHADER){
+        color_basic = QColor("#FFFF7700");
+    }
     color_outline = QColor(Qt::black);
     pen = QPen(color_outline);
     brush = QBrush(color_basic);
@@ -101,6 +107,11 @@ void NodeSocket::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void NodeSocket::setType(SOCKET_TYPE type){
     this->socket_type = type;
+}
+
+void NodeSocket::setDataType(DATA_TYPE type)
+{
+    this->data_type = type;
 }
 void NodeSocket::setIndex(int index){
     this->index = index;

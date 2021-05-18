@@ -11,6 +11,11 @@ enum SOCKET_TYPE{
     SOCKET_OUTPUT = 1
 };
 
+enum DATA_TYPE{
+    DATA_NUMBER = 0,
+    DATA_SHADER = 1
+};
+
 enum ItemType{
     Type_NodeSocket = QGraphicsItem::UserType + 2,
     Type_NodeEdge = QGraphicsItem::UserType + 3,
@@ -28,6 +33,10 @@ enum ItemType{
 
 struct NumberData{
     double number;
+};
+
+struct ShaderData{
+    QString code;
 };
 
 

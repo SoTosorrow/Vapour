@@ -6,19 +6,16 @@
 #include<QWidget>
 #include<QList>
 
-#include"node_item.h"
+#include"number/node_item.h"
+#include"shader/node_shader.h"
 #include"node_socket.h"
-
-//struct NodeConnect{
-//    Node *node;
-//};
 
 
 class Node : public QWidget
 {
 public:
     Node(QWidget *parent=nullptr);
-    Node(int type,QWidget *parent=nullptr);
+    Node(int type, QWidget *parent=nullptr);
     ~Node();
 
     Node(const Node& node,QWidget *parent=nullptr);
@@ -29,7 +26,10 @@ public:
     void initSocket(int in,int out);
     void transferData();
     void setTitle(QString title){
-        this->item->setTitle(title);
+        if(node_type==DATA_NUMBER)
+            this->item->setTitle(title);
+        if(node_type==DATA_SHADER)
+            this->shader_item->setTitle(title);
     }
 
 
@@ -52,7 +52,9 @@ public:
     bool canCompute = true;
 
 
-    NodeItem* item;
+    NodeItem* item=nullptr;
+    NodeShader* shader_item = nullptr;
+    enum DATA_TYPE node_type = DATA_NUMBER;
 
 };
 

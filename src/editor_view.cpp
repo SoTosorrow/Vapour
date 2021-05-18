@@ -335,7 +335,10 @@ void EditorView::addNode(int index, int type, QPoint pos)
     node->setIndex(index);
     node->setTitle(QString::number(index));
     this->nodes.push_back(node);
-    this->editorScene->addItem(node->item);
+    if(node->node_type==DATA_NUMBER)
+        this->editorScene->addItem(node->item);
+    if(node->node_type==DATA_SHADER)
+        this->editorScene->addItem(node->shader_item);
 }
 
 void EditorView::addNode()
@@ -479,6 +482,13 @@ void EditorView::contextMenuEvent(QContextMenuEvent *event)
     {
         addNode(number++,5,pos);
     });
+
+    QAction *addNode10 = menu->addAction("Shader-Input");
+    connect(addNode10, &QAction::triggered, [=]()
+    {
+        addNode(number++,10,pos);
+    });
+
     menu->popup(pos);
 
 
