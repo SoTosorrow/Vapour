@@ -5,7 +5,7 @@
 日志:  
 * 2021-5-17: 完成背景绘制，右键菜单，节点连线，节点删除，初步拓扑排序  
 (细节)连线位于节点层级之下，使用lambda处理右键菜单slot，节点创建生成在鼠标位置处  
-* 2021-5-18: 完成节点UI的扩展  
+* 2021-5-18: 完成节点UI的扩展，number节点处理  
 
 
 
@@ -22,7 +22,7 @@ shift加选
 initData的设计  
 重新设计数据传输储存和处理部分  
 加入节点!canCompute时  
-input_socket->connect_indices.append(output_socket->index);对应的delete  
+不同socket区分，处理区分  
 
 分类数据输入与输出和传递的问题  
 addNode 中的Node new是否正常释放了？需要手动delete吗？  

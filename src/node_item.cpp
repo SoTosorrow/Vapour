@@ -28,8 +28,6 @@ void NodeItem::operator=(const NodeItem &node_item){
 NodeItem::~NodeItem(){
     delete this->inter;
     this->inter=nullptr;
-    delete this->inter;
-    this->inter=nullptr;
     delete this->proxyContent;
     this->proxyContent=nullptr;
 
