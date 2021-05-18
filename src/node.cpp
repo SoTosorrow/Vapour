@@ -4,7 +4,7 @@ Node::Node(QWidget *parent)
     :QWidget(parent)
 {
     qDebug()<<"Create: Test-node";
-    this->item = new NodeItem("test");
+    this->item = new NodeShader("test");
 
     initSocket(2,1);
 }
@@ -13,35 +13,16 @@ Node::Node(int type, QWidget *parent)
     :QWidget(parent)
 {
     if(type == 0){
-        this->item = new NodeItemNumberInput();
+        this->item = new NodeShaderInput();
         initSocket(0,1);
         return;
     }
     if(type == 1){
-        this->item = new NodeItemNumberOutput();
+        this->item = new NodeShaderOutput();
         initSocket(1,0);
         return;
     }
-    if(type == 2){
-        this->item = new NodeItemNumberAdd();
-        initSocket(2,1);
-        return;
-    }
-    if(type == 3){
-        this->item = new NodeItemNumberSub();
-        initSocket(2,1);
-        return;
-    }
-    if(type == 4){
-        this->item = new NodeItemNumberMul();
-        initSocket(2,1);
-        return;
-    }
-    if(type == 5){
-        this->item = new NodeItemNumberDiv();
-        initSocket(2,1);
-        return;
-    }
+
 }
 
 Node::~Node()

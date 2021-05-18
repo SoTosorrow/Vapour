@@ -4,7 +4,7 @@ NodeSocket::NodeSocket(QGraphicsItem *parent): QGraphicsItem(parent)
 {
     //this->index = 0;
     //type = SOCKET_INPUT;
-    color_basic = QColor(Qt::yellow);//"#FFFF7700"
+    color_basic = QColor("#FFFF7700");
     color_outline = QColor(Qt::black);
     pen = QPen(color_outline);
     brush = QBrush(color_basic);

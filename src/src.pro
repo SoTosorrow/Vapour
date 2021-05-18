@@ -19,7 +19,9 @@ SOURCES += \
     node_edge_temp.cpp \
     node_inter.cpp \
     node_item.cpp \
-    node_socket.cpp
+    node_socket.cpp \
+    shader/node_shader.cpp \
+    shader/node_shader_content.cpp
 
 HEADERS += \
     editor_scene.h \
@@ -32,7 +34,9 @@ HEADERS += \
     node_inter.h \
     node_item.h \
     node_socket.h \
-    types.h
+    types.h \
+    shader/node_shader.h \
+    shader/node_shader_content.h
 
 FORMS +=
 

@@ -329,6 +329,9 @@ void EditorView::addNode(int index, int type, QPoint pos)
     posF = this->mapToScene(pos);
 
     Node* node = new Node(type);
+    if(node->item==nullptr){
+        return;
+    }
     posF.setX(posF.x()-40);
     posF.setY(posF.y()-40);
     node->setPos(posF);
@@ -453,7 +456,7 @@ void EditorView::contextMenuEvent(QContextMenuEvent *event)
 
     qDeleteAll(action);
     action.clear();
-    action.append(menu->addAction("Number-Input"));
+    action.append(menu->addAction("Shader-Input"));
     connect(action[0], &QAction::triggered, [=]()
     {
         addNode(number++,0,pos);

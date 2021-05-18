@@ -8,6 +8,7 @@
 
 #include"node_item.h"
 #include"node_socket.h"
+#include"shader/node_shader.h"
 
 //struct NodeConnect{
 //    Node *node;
@@ -52,7 +53,7 @@ public:
     bool canCompute = true;
 
 
-    NodeItem* item;
+    NodeShader* item = nullptr;
 
 };
 

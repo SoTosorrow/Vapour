@@ -30,5 +30,9 @@ struct NumberData{
     double number;
 };
 
+struct ShaderData{
+    QString data;
+};
+
 
 #endif // TYPES_H
