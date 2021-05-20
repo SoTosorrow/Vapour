@@ -22,7 +22,16 @@ Node::Node(int type, QWidget *parent)
         initSocket(1,0);
         return;
     }
-
+    if(type == 2){
+        this->item = new NodeShaderFunc();
+        initSocket(1,1);
+        return;
+    }
+    if(type == 3){
+        this->item = new NodeShaderCircle();
+        initSocket(4,1);
+        return;
+    }
 }
 
 Node::~Node()

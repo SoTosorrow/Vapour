@@ -2,6 +2,7 @@
 #define TYPES_H
 
 #include<QGraphicsItem>
+#include<QString>
 
 const int NumberNodeStart = QGraphicsItem::UserType + 11;
 const int NumberNodeCount = 10;
@@ -31,6 +32,18 @@ struct NumberData{
 };
 
 struct ShaderData{
+    /*
+    QString define=" precision mediump float; \n\
+                    uniform vec2 u_resolution; \n\
+                    varying vec4 v_Color; \n\
+                    uniform float u_time; \n";
+    QString customDefine;
+    QString customFunc;
+    QString head = "void main() { \n";
+    QString customCode;
+    QString customColor;
+    QString end = "\n}";
+    */
     QString data;
 };
 

@@ -467,12 +467,12 @@ void EditorView::contextMenuEvent(QContextMenuEvent *event)
         addNode(number++,1,pos);
     });
     menu->addSeparator();
-    action.append(menu->addAction("Number-Add"));
+    action.append(menu->addAction("Shader-Func"));
     connect(action[2], &QAction::triggered, [=]()
     {
         addNode(number++,2,pos);
     });
-    action.append(menu->addAction("Number-Sub"));
+    action.append(menu->addAction("Shader-Circle"));
     connect(action[3], &QAction::triggered, [=]()
     {
         addNode(number++,3,pos);
@@ -488,12 +488,12 @@ void EditorView::contextMenuEvent(QContextMenuEvent *event)
         addNode(number++,5,pos);
     });
 
-    QMenu *childMenu = new QMenu("child");
-    QAction *addNoden = childMenu->addAction("JustAShow");
+    QMenu *funcMenu = new QMenu("Func");
+    QAction *addNoden = funcMenu->addAction("JustAShow");
     Q_UNUSED(addNoden);
 //    //addNoden->setMenu(childMenu);
-    childMenu->setStyleSheet(qss);
-    menu->addMenu(childMenu);
+    funcMenu->setStyleSheet(qss);
+    menu->addMenu(funcMenu);
     menu->popup(pos);
     //menu->exec(QCursor::pos());
 

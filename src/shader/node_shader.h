@@ -25,7 +25,6 @@ public:
                QWidget *widget = nullptr) override;
     QRectF boundingRect() const override;
     bool contains(const QPointF &point) const override;
-    int type() const override {return Type_NodeItem;}
 
     void setTitle(QString title);
     virtual void initDataNum(int input_data_number,int output_data_number){
@@ -95,8 +94,6 @@ public:
     }
     void handle() override{
     }
-
-    int type() const override {return Type_NodeItemNumber;}
 public:
     NodeShaderContentInput* content;
 };
@@ -130,11 +127,74 @@ public:
     }
     void handle() override{
     }
-
-    int type() const override {return Type_NodeItemNumber;}
 public:
     NodeShaderContentOutput* content;
 };
 
+class NodeShaderFunc : public NodeShader
+{
+public:
+    NodeShaderFunc():NodeShader("Input"){
+        NodeShader::height = 80;
+        this->content = new NodeShaderContentFunc("sin");
+        this->content->setGeometry(edge_size, title_height+0.5*edge_size,
+                                   width - 2*edge_size,height - 2*edge_size - title_height);
+        NodeShader::proxyContent->setWidget(this->content);
+
+    }
+    ~NodeShaderFunc(){
+        delete content;
+        this->content = nullptr;
+    }
+    void initDataNum(int input_data_number,int output_data_number) override{
+        this->input_data_number = input_data_number;
+        this->output_data_number = output_data_number;
+        for(int i=0;i<input_data_number;i++){
+            this->input_datas.append({0});
+        }
+        for(int i=0;i<output_data_number;i++){
+            this->output_datas.append({0});
+        }
+    }
+    void initData() override{
+    }
+    void handle() override{
+    }
+public:
+    NodeShaderContentFunc* content;
+};
+
+class NodeShaderCircle : public NodeShader
+{
+public:
+    NodeShaderCircle():NodeShader("Input"){
+        NodeShader::height = 200;
+        this->content = new NodeShaderContentCircle();
+        this->content->setGeometry(edge_size, title_height+0.5*edge_size,
+                                   width - 2*edge_size,height - 2*edge_size - title_height);
+        NodeShader::proxyContent->setWidget(this->content);
+
+    }
+    ~NodeShaderCircle(){
+        delete content;
+        this->content = nullptr;
+    }
+    void initDataNum(int input_data_number,int output_data_number) override{
+        this->input_data_number = input_data_number;
+        this->output_data_number = output_data_number;
+        for(int i=0;i<input_data_number;i++){
+            this->input_datas.append({0});
+        }
+        for(int i=0;i<output_data_number;i++){
+            this->output_datas.append({0});
+        }
+    }
+    void initData() override{
+    }
+    void handle() override{
+    }
+public:
+    NodeShaderContentCircle* content;
+};
 
 #endif // NODESHADER_H
