@@ -20,8 +20,6 @@ public:
     void operator=(const VapourNode &node);
     ~VapourNode();
 
-    virtual void handle(){}
-    virtual void transfer(){}
 
     void setPos(QPointF pos){
         this->desc->setPos(pos);
@@ -36,13 +34,45 @@ public:
         this->input_socket_number = in;
         this->output_socket_number = out;
     }
+    virtual void initData(){
+        //qDeleteAll(input_datas);
+        input_datas.clear();
+        //qDeleteAll(output_datas);
+        output_datas.clear();
+        for(int i=0;i<this->desc->input_sockets.length();i++){
+            input_datas.append({0});
+            input_datas[i].data = this->desc->interaction->edits[i]->text().toDouble();
+        }
+        for(int i=0;i<this->desc->output_sockets.length();i++){
+            output_datas.append({0});
+        }
+    }
+    virtual void handle(){
+        qDebug()<<"handle"<<input_datas.length()<<output_datas.length();
+        output_datas[0] = input_datas[0];
+        output_datas[1].data = input_datas[1].data+input_datas[2].data;
 
+        for(int i=0;i<input_datas.length();i++){
+            this->desc->interaction->edits[i]->setText(QString::number(this->input_datas[i].data));
+        }
+    }
+    virtual void transfer(){
+        for(int i=0;i<this->output_nodes.length();i++){
+            qDebug()<<this->connect_info[i].first.first->index<<this->connect_info[i].first.second->index<<
+                      this->connect_info[i].second.first<<this->connect_info[i].second.second;
+            for(int j=0;j<this->input_datas.length();j++)
+                qDebug()<<this->input_datas[j].data;
+            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]=
+                    this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first];
+        }
+    }
 
 
 public:
     int index;
     VapourDescriptor* desc;
-    QList<QPair<VapourNode*,QPair<int,int>>> connect_info;
+    //QList<QPair<VapourNode*,QPair<int,int>>> connect_info;
+    QList<QPair<QPair<VapourNode*,VapourNode*>,QPair<int,int>>> connect_info;
     QList<VapourNode*> input_nodes;
     QList<VapourNode*> output_nodes;
     // input_Data

@@ -62,7 +62,8 @@ public:
     QList<QString> params;
     QList<VapourSocket*> input_sockets;
     QList<VapourSocket*> output_sockets;
-    VapourAction* interaction;
+    //VapourAction* interaction;
+    VapourActionEdit* interaction;
     // params
     //QList<QWidget*> edit; // params
 

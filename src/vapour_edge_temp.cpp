@@ -45,6 +45,7 @@ void VapourEdgeTemp::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
                   end_pos.y());
     this->setPath(path);
     painter->drawPath(path);
+
 }
 
 QRectF VapourEdgeTemp::boundingRect() const

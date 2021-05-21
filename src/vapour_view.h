@@ -13,7 +13,7 @@
 #include<QMenu>
 #include<QQueue>
 #include"vapour_scene.h"
-#include"vapour_node.h"
+#include"vapour_node_develop.h"
 #include"vapour_edge.h"
 #include"vapour_edge_temp.h"
 #include"vapour_types.h"
@@ -42,6 +42,8 @@ public:
     void addEdge(VapourNode* input_node,VapourNode* output_node,
                  VapourSocket* input_socket,VapourSocket* output_socket);
     void deleteItem();
+    void queryNodeInfo();
+    void ergodicGraph();
 
     void debug();
 

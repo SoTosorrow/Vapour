@@ -17,7 +17,7 @@ VapourView::VapourView(VapourScene* scene,QWidget *parent)
     this->setTransformationAnchor(QGraphicsView::AnchorUnderMouse); //设置锚点
     this->setDragMode(QGraphicsView::RubberBandDrag);  // 框选
 
-    debug();
+    //debug();
 }
 
 VapourView::~VapourView()
@@ -47,11 +47,11 @@ void VapourView::addEdge(VapourNode *input_node, VapourNode *output_node,
     // 连线开始处的节点拥有新的输出
     input_node->output_nodes.append(output_node);
     // 该socket可以连接多个socket，记录了连接的socket的index
-//    Connect c;
-//    c.input_index = input_socket->index;
-//    c.output_index = output_socket->index;
+
     QPair<int,int> a(input_socket->index,output_socket->index);
-    input_node->connect_info.append({output_node,a});
+    QPair<VapourNode*,VapourNode*> n(input_node,output_node);
+    QPair<QPair<VapourNode*,VapourNode*>,QPair<int,int>>t(n,a);
+    input_node->connect_info.append(t);
     this->edge = new VapourEdge(input_node,output_node,
                               input_socket,output_socket);
     this->edge->setZValue(-1);
@@ -76,17 +76,18 @@ void VapourView::deleteItem()
         }
         for(int j=0;j<this->edges.length();j++){
             if(this->edges[j] == item_list[i]){
+                //qDebug()<<"judge"<<this->edges[j]->output_socket->index<<this->edges[j]->input_socket->index;
+                QPair<int,int> a(this->edges[j]->input_socket->index,this->edges[j]->output_socket->index);
+                QPair<VapourNode*,VapourNode*> n(this->edges[j]->input_node,this->edges[j]->output_node);
+                QPair<QPair<VapourNode*,VapourNode*>,QPair<int,int>>t(n,a);
+                this->edges[j]->input_node->connect_info.removeOne(t);
+
                 this->edges[j]->input_node->output_nodes.removeOne(this->edges[j]->output_node);
                 this->edges[j]->output_node->input_nodes.removeOne(this->edges[j]->input_node);
                 this->edges[j]->input_socket->is_connected = false;
                 this->edges[j]->output_socket->is_connected = false;
                 //delete this->edges[j];
 
-                //                Connect c;
-                //                c.input_index = start_socket->index;
-                //                c.output_index = end_socket->index;
-                QPair<int,int> a(this->edges[j]->output_socket->index,this->edges[j]->input_socket->index);
-                this->edges[j]->input_node->connect_info.removeOne({this->edges[j]->output_node,a});
                 this->edges[j]->hide();
                 this->edges.removeOne(this->edges[j]);
                 this->vapour_scene->removeItem(item_list[i]);
@@ -95,6 +96,58 @@ void VapourView::deleteItem()
     }
     qDebug()<<this->vapour_scene->items().count();
 
+}
+
+void VapourView::queryNodeInfo()
+{
+    QList<QGraphicsItem*> item_list = this->vapour_scene->selectedItems();
+    for(int i=0;i<item_list.length();i++){
+        for(int j=0;j<nodes.length();j++){
+            if(nodes[j]->desc==item_list[i]){
+                for(int n=0;n<nodes[j]->connect_info.length();n++){
+                    qDebug()<<nodes[j]->index<<nodes[j]->connect_info[n].first.first->index<<
+                              nodes[j]->connect_info[n].first.second->index<<
+                              nodes[j]->connect_info[n].second.first<<nodes[j]->connect_info[n].second.second;
+                    qDebug()<<nodes[j]->input_datas.length()<<nodes[j]->output_datas.length();
+                }
+            }
+        }
+    }
+}
+
+void VapourView::ergodicGraph()
+{
+    qDebug()<<"**************";
+    QQueue<VapourNode*> queue;
+    for(int i=0;i<this->nodes.length();i++){
+        this->nodes[i]->initData();
+        //for(int j=0;j<this->nodes[i]->input_nodes.length();j++)
+        this->nodes[i]->input_vaild = this->nodes[i]->input_nodes.length();
+        this->nodes[i]->output_vaild = this->nodes[i]->output_nodes.length();
+        if(this->nodes[i]->input_vaild == 0){
+            queue.append(this->nodes[i]);
+        }
+    }
+//    qDebug()<<queue.length();
+//    for(int i=0;i<queue.length();i++){
+//        qDebug()<<queue[i]->index;
+//    }
+
+    qDebug()<<"topological-sort";
+    while(!queue.empty()){
+        qDebug()<<"compute: "<<queue[0]->index;
+//        queue[0]->desc->handle();
+//        queue[0]->transferData();
+        queue[0]->handle();
+        queue[0]->transfer();
+        for(int k=0;k<queue[0]->output_nodes.length();k++){
+            queue[0]->output_nodes[k]->input_vaild--;
+            if(queue[0]->output_nodes[k]->input_vaild == 0){
+                queue.append(queue[0]->output_nodes[k]);
+            }
+        }
+        queue.pop_front();
+    }
 }
 
 void VapourView::debug()
@@ -116,7 +169,30 @@ void VapourView::addNode(int index, QPoint pos)
     pos = this->mapFromGlobal(pos);
     posF = this->mapToScene(pos);
 
-    VapourNode* node = new VapourNode();
+    VapourNode* node = new VapourNodeInput();
+    node->desc->setDescWidth(200);
+    posF.setX(posF.x()-40);
+    posF.setY(posF.y()-40);
+    node->setPos(posF);
+    node->setIndex(index);
+    node->setTitle(QString::number(index));
+    this->nodes.push_back(node);
+    this->vapour_scene->addItem(node->desc);
+}
+
+void VapourView::addNode(int index, int type, QPoint pos)
+{
+    QPointF posF;
+    pos = this->mapFromGlobal(pos);
+    posF = this->mapToScene(pos);
+    VapourNode* node;
+    if(type==0){
+        node = new VapourNodeInput();
+    }
+    else{
+        node = new VapourNode();
+    }
+    node->desc->setDescWidth(200);
     posF.setX(posF.x()-40);
     posF.setY(posF.y()-40);
     node->setPos(posF);
@@ -134,9 +210,11 @@ void VapourView::keyPressEvent(QKeyEvent *event){
         return;
     }
     if((event->modifiers()== Qt::ShiftModifier) && event->key() == Qt::Key_Q){
+        queryNodeInfo();
         return;
     }
     if((event->modifiers()== Qt::ShiftModifier) && event->key() == Qt::Key_S){
+        ergodicGraph();
         return;
     }
     if(event->key() == Qt::Key_Delete){
@@ -385,12 +463,12 @@ void VapourView::contextMenuEvent(QContextMenuEvent *event)
     action.append(menu->addAction("Shader-Input"));
     connect(action[0], &QAction::triggered, [=]()
     {
-        //addNode(number++,0,pos);
+        addNode(number++,0,pos);
     });
     action.append(menu->addAction("Number-Output"));
     connect(action[1], &QAction::triggered, [=]()
     {
-        //addNode(number++,1,pos);
+        addNode(number++,1,pos);
     });
     menu->addSeparator();
     action.append(menu->addAction("Shader-Func"));
