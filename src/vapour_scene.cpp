@@ -3,6 +3,7 @@
 VapourScene::VapourScene(QWidget *parent)
     :QGraphicsScene(parent)
 {
+    qDebug()<<"Create: VapourScene";
     this->color_background = QColor("#393939");
     this->color_light = QColor("#2f2f2f");
     this->color_dark = QColor("#262626");

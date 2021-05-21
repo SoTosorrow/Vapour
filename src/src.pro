@@ -22,8 +22,11 @@ SOURCES += \
     node_socket.cpp \
     shader/node_shader.cpp \
     shader/node_shader_content.cpp \
+    vapour_action.cpp \
     vapour_demo.cpp \
     vapour_descriptor.cpp \
+    vapour_edge.cpp \
+    vapour_edge_temp.cpp \
     vapour_node.cpp \
     vapour_scene.cpp \
     vapour_socket.cpp \
@@ -42,8 +45,13 @@ HEADERS += \
     node_inter.h \
     node_item.h \
     node_socket.h \
+    vapour_action.h \
+    vapour_action_develop.h \
     vapour_descriptor.h \
+    vapour_edge.h \
+    vapour_edge_temp.h \
     vapour_node.h \
+    vapour_node_develop.h \
     vapour_scene.h \
     vapour_socket.h \
     types.h \

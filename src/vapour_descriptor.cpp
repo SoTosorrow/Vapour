@@ -10,18 +10,21 @@ VapourDescriptor::VapourDescriptor(QString node_name)
     this->text->setDefaultTextColor(this->title_color);
     this->text->setPos(4,2);
     this->proxyContent = new QGraphicsProxyWidget(this);
-
     setSocketNumber(1,1);
     initSocket();
-
+    this->interaction = new VapourActionEdit();
+    this->interaction->setGeometry(edge_size, title_height+0.5*edge_size,
+                               width - 2*edge_size,height - 2*edge_size - title_height);
+    this->proxyContent->setWidget(this->interaction);
 
     this->setFlag(QGraphicsItem::ItemIsSelectable);
     this->setFlag(QGraphicsItem::ItemIsMovable);
 }
 
 VapourDescriptor::VapourDescriptor(int in_num, int out_num, QString node_name)
+    :QGraphicsItem()
 {
-    qDebug()<<"Create:"<<node_name;
+    qDebug()<<"Create: VapourDescriptor"<<node_name;
     this->title = node_name;
     this->title_color =QColor("#aaaaaa");
     this->text =new QGraphicsTextItem(this->title,this);
@@ -31,7 +34,13 @@ VapourDescriptor::VapourDescriptor(int in_num, int out_num, QString node_name)
 
     setSocketNumber(in_num,out_num);
     initSocket();
+    setDescWidth(160);
+    setDescHeight(150);
 
+    this->interaction = new VapourActionEdit(3);
+    this->interaction->setGeometry(edge_size, title_height+0.5*edge_size,
+                               width - 2*edge_size,height - 2*edge_size - title_height);
+    this->proxyContent->setWidget(this->interaction);
 
     this->setFlag(QGraphicsItem::ItemIsSelectable);
     this->setFlag(QGraphicsItem::ItemIsMovable);
@@ -66,7 +75,7 @@ void VapourDescriptor::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     path_title->addRect(0,title_height-edge_size,edge_size,edge_size);//给椭圆左侧增加Rect遮住倒角
     path_title->addRect(width-edge_size,title_height-edge_size,edge_size,edge_size);//给椭圆右侧增加Rect遮住倒角
     painter->setPen(Qt::NoPen);
-    painter->setBrush(QColor("#FF313131"));
+    painter->setBrush(QColor("#FF313131")); // FF313131
     painter->drawPath(path_title->simplified());
 
     path_data = new QPainterPath();
@@ -75,7 +84,7 @@ void VapourDescriptor::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     path_data->addRect(0,title_height,edge_size,edge_size);//给椭圆左侧增加Rect遮住倒角
     path_data->addRect(width-edge_size,title_height,edge_size,edge_size);//给椭圆右侧增加Rect遮住倒角
     painter->setPen(Qt::NoPen);
-    painter->setBrush(QColor("#E3212121"));
+    painter->setBrush(QColor("#E3212121")); // #E3212121
     painter->drawPath(path_data->simplified());
 
 

@@ -7,6 +7,7 @@
 #include<QtGui>
 #include<QList>
 #include"vapour_socket.h"
+#include"vapour_action_develop.h"
 // 负责节点UI的呈现
 
 class VapourDescriptor : public QGraphicsItem
@@ -31,7 +32,7 @@ public:
         for(int i=0;i<this->input_socket_number;i++){
             // temp是否正确释放
             VapourSocket* temp =  new VapourSocket(this);
-            temp->setPos(0,i*20+34);
+            temp->setPos(0,i*30+40);
             temp->setIndex(i);
             input_sockets.append(temp);
         }
@@ -42,6 +43,18 @@ public:
             output_sockets.append(temp);
         }
     }
+    void setTitle(QString title){
+        this->text->setPlainText(title);
+    }
+    void setDescWidth(float w){
+        this->width = w;
+        for(int j=0;j<output_socket_number;j++){
+            output_sockets[j]->setPos(width,j*20+34);
+        }
+    }
+    void setDescHeight(float h){
+        this->height = h;
+    }
 
 
 
@@ -49,9 +62,12 @@ public:
     QList<QString> params;
     QList<VapourSocket*> input_sockets;
     QList<VapourSocket*> output_sockets;
+    VapourAction* interaction;
+    // params
+    //QList<QWidget*> edit; // params
 
     bool can_compute = true;
-    bool input_is_union_socket;
+    bool input_is_union_socket = false;
     int input_socket_number;
     int output_socket_number;
 

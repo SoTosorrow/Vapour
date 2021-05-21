@@ -5,6 +5,7 @@ EditorView::EditorView(EditorScene* scene,QWidget *parent)
 {
     // for unique_ptr
     // this->editorScene = std::move(scene);
+
     this->editorScene = scene;
 
     this->setScene(this->editorScene);

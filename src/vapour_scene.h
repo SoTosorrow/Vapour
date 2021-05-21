@@ -10,6 +10,7 @@
 #include<QPainter>
 #include<QRectF>
 #include<math.h>
+#include<QDebug>
 
 class VapourScene : public QGraphicsScene
 {

@@ -35,6 +35,8 @@ public:
     int index;
     VapourSocketConnectType socket_connect_type;
     VapourSocketType socket_type;
+    VapourDataType data_type;
+    bool is_connected=false;
 
 
 
