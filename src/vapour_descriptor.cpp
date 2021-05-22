@@ -36,7 +36,7 @@ VapourDescriptor::VapourDescriptor(int in_num, int out_num, QString node_name,in
 //    setDescHeight(150);
 
     // 定义交互部分
-    this->interaction = new VapourActionButton(edit_number);
+    this->interaction = new VapourActionEdit(edit_number);
     this->interaction->setGeometry(edge_size, title_height+0.5*edge_size,
                                width - 2*edge_size,height - 2*edge_size - title_height);
     this->proxyContent->setWidget(this->interaction);

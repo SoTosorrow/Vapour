@@ -14,8 +14,8 @@ VapourEdge::VapourEdge(VapourNode *start_node, VapourNode *end_node, VapourSocke
 
     this->start_socket_pos = start_socket->pos();
     this->end_socket_pos = end_socket->pos();
-    this->start_pos = start_node->desc->pos() + start_socket_pos;
-    this->end_pos = end_node->desc->pos() + end_socket_pos;
+    this->start_pos = start_node->desc->getPos() + start_socket_pos;
+    this->end_pos = end_node->desc->getPos() + end_socket_pos;
     this->path = QPainterPath(start_pos);
 
     this->setFlag(QGraphicsItem::ItemIsSelectable);
@@ -69,8 +69,8 @@ void VapourEdge::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     pen1.setWidth(2);
     QPen pen2(QColor("#228B22"));
     pen2.setWidth(2);
-    this->start_pos = this->input_node->desc->pos() + start_socket_pos;
-    this->end_pos = this->output_node->desc->pos() + end_socket_pos;
+    this->start_pos = this->input_node->desc->getPos() + start_socket_pos;
+    this->end_pos = this->output_node->desc->getPos() + end_socket_pos;
     path = QPainterPath(start_pos);
 
 

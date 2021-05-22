@@ -18,7 +18,7 @@ public:
     VapourDescriptor(int in_num,int out_num,QString node_name,int edit_number=1);
     VapourDescriptor(const VapourDescriptor& desc);
     void operator=(const VapourDescriptor &desc);
-    ~VapourDescriptor();
+    virtual ~VapourDescriptor();
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget = nullptr) override;
@@ -67,6 +67,24 @@ public:
 
         }
     }
+    virtual QPointF getPos(){
+        return this->pos();
+    }
+    virtual void setText(int n,QString t){
+        this->interaction->edits[n]->setText(t);
+    }
+    virtual double getText(int n){
+        return this->interaction->edits[n]->text().toDouble();
+    }
+    virtual QString getFile(){
+        // return this->interaction->edits[0]->text();
+    }
+    virtual void test_T_image(cv::Mat m){
+
+    }
+    virtual QList<QString> getParams(){
+
+    }
 
 
 
@@ -74,8 +92,8 @@ public:
     // QList<QString> params;
     QList<VapourSocket*> input_sockets;
     QList<VapourSocket*> output_sockets;
-    //VapourAction* interaction;
-    VapourActionButton* interaction;
+
+    VapourActionEdit* interaction;
 
 
     bool can_compute = true;
@@ -95,7 +113,7 @@ public:
 public:
     float width = 180; // 节点宽度
     float title_height = 24;
-    float height = 100;
+    float height = 200;
     float edge_size = 10.0;
 };
 

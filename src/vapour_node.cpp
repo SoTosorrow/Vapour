@@ -6,7 +6,7 @@ VapourNode::VapourNode(QWidget *parent)
 {
     // qDebug()<<"Create: Basic Vapour-node";
     initDesc(1,1);
-    this->desc = new VapourDescriptor(input_socket_number,output_socket_number,"test",1);
+    this->desc = new VapourDescriptorInput(input_socket_number,output_socket_number,"test",1);
 }
 
 VapourNode::VapourNode(const VapourNode &node, QWidget *parent)

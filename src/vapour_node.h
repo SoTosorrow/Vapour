@@ -10,6 +10,7 @@
 #include"vapour_types.h"
 #include"vapour_descriptor.h"
 #include"vapour_action_develop.h"
+#include"vapour_descriptor_develop.h"
 
 // 释放 connect_info 内存
 class VapourNode : public QWidget
@@ -21,49 +22,43 @@ public:
     ~VapourNode();
 
 
-    void setPos(QPointF pos){
-        this->desc->setPos(pos);
-    }
     void setIndex(int index){
         this->index = index;
-    }
-    void setTitle(QString title){
-        this->desc->setTitle(title);
     }
     void initDesc(int in, int out){
         this->input_socket_number = in;
         this->output_socket_number = out;
     }
+    virtual void setPos(QPointF pos){
+        this->desc->setPos(pos);
+    }
+    virtual void setTitle(QString title){
+        this->desc->setTitle(title);
+    }
+    virtual QPointF getPos(){
+        return this->desc->pos();
+    }
+    virtual VapourDescriptor* getDesc(){
+        return this->desc;
+    }
     virtual void initData(){
-        //qDeleteAll(input_datas);
-        input_datas.clear();
-        //qDeleteAll(output_datas);
-        output_datas.clear();
-        for(int i=0;i<this->desc->input_sockets.length();i++){
-            input_datas.append({0});
-            input_datas[i].data = this->desc->interaction->edits[i]->text().toDouble();
-        }
-        for(int i=0;i<this->desc->output_sockets.length();i++){
-            output_datas.append({0});
-        }
     }
     virtual void handle(){
-        qDebug()<<"handle"<<input_datas.length()<<output_datas.length();
-        output_datas[0] = input_datas[0];
+    }
+    virtual QList<DMat> getInputDatas(){
 
-        for(int i=0;i<input_datas.length();i++){
-            this->desc->interaction->edits[i]->setText(QString::number(this->input_datas[i].data));
-        }
+    }
+    virtual QList<DMat> getOutputDatas(){
+
+    }
+    virtual void setInputDatas(int n,DMat m){
+
+    }
+    virtual void setOutputDatas(int n,DMat m){
+
     }
     virtual void transfer(){
-        for(int i=0;i<this->output_nodes.length();i++){
-            qDebug()<<this->connect_info[i].first.first->index<<this->connect_info[i].first.second->index<<
-                      this->connect_info[i].second.first<<this->connect_info[i].second.second;
-//            for(int j=0;j<this->input_datas.length();j++)
-//                qDebug()<<this->input_datas[j].data;
-            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]=
-                    this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first];
-        }
+        qDebug()<<"basic transfer";
     }
 
 
