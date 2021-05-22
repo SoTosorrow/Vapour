@@ -50,8 +50,9 @@ void VapourEdge::operator=(const VapourEdge &edge)
 
 VapourEdge::~VapourEdge()
 {
-    qDebug()<<"edge delete";
+    qDebug()<<"Delete: Edge";
     this->output_socket->is_connected=false;
+    // can not delete the pointer
     this->input_node = nullptr;
     this->output_node = nullptr;
     this->input_socket = nullptr;

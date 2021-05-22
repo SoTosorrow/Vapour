@@ -7,10 +7,13 @@ class VapourNodeInput : public VapourNode
 {
 public:
     VapourNodeInput(QWidget *parent=nullptr):VapourNode(parent){
-        qDebug()<<"Create: Vapour-node-Input";
+        qDebug()<<"Create: Vapour node-Input";
         initDesc(2,1);
-        // Desc interaction init
-        this->desc = new VapourDescriptor(input_socket_number,output_socket_number,"test");
+        // 定义节点描述，自动定义节点用户接口
+        this->desc = new VapourDescriptor(input_socket_number,output_socket_number,"Input",2);
+        // 节点大小
+        this->desc->setDescWidth(160);
+        this->desc->setDescHeight(130);
     }
     virtual void initData(){
         qDebug()<<"initData";
@@ -29,11 +32,9 @@ public:
     virtual void handle(){
         qDebug()<<"handle"<<input_datas.length()<<output_datas.length();
         output_datas[0] = input_datas[0];
-
         for(int i=0;i<input_datas.length();i++){
             this->desc->interaction->edits[i]->setText(QString::number(this->input_datas[i].data));
         }
-        qDebug()<<"a";
     }
 };
 

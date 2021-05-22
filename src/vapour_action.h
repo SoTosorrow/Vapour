@@ -15,10 +15,14 @@
 class VapourAction: public QWidget
 {
 public:
-    VapourAction(){
+    VapourAction(int n=1){
         edit_layout = new QVBoxLayout();
         this->edit_layout->setContentsMargins(0,0,0,0);
         this->setLayout(this->edit_layout);
+        setEditNumber(n);
+    }
+    void setEditNumber(int n){
+        this->edit_number = n;
     }
     ~VapourAction(){
         delete edit_layout;

@@ -9,19 +9,6 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    editor_scene.cpp \
-    editor_view.cpp \
-    editor_win.cpp \
-    main.cpp \
-    node.cpp \
-    node_data.cpp \
-    node_edge.cpp \
-    node_edge_temp.cpp \
-    node_inter.cpp \
-    node_item.cpp \
-    node_socket.cpp \
-    shader/node_shader.cpp \
-    shader/node_shader_content.cpp \
     vapour_action.cpp \
     vapour_demo.cpp \
     vapour_descriptor.cpp \
@@ -35,19 +22,10 @@ SOURCES += \
     vapour_win.cpp
 
 HEADERS += \
-    editor_scene.h \
-    editor_view.h \
-    editor_win.h \
-    node.h \
-    node_data.h \
-    node_edge.h \
-    node_edge_temp.h \
-    node_inter.h \
-    node_item.h \
-    node_socket.h \
     vapour_action.h \
     vapour_action_develop.h \
     vapour_descriptor.h \
+    vapour_descriptor_develop.h \
     vapour_edge.h \
     vapour_edge_temp.h \
     vapour_node.h \
@@ -55,8 +33,6 @@ HEADERS += \
     vapour_scene.h \
     vapour_socket.h \
     types.h \
-    shader/node_shader.h \
-    shader/node_shader_content.h \
     vapour_data.h \
     vapour_types.h \
     vapour_view.h \

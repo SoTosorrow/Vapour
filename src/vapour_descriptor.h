@@ -1,3 +1,4 @@
+#pragma once
 #ifndef VAPOURDESCRIPTOR_H
 #define VAPOURDESCRIPTOR_H
 
@@ -14,7 +15,7 @@ class VapourDescriptor : public QGraphicsItem
 {
 public:
     VapourDescriptor(QString node_name);
-    VapourDescriptor(int in_num,int out_num,QString node_name);
+    VapourDescriptor(int in_num,int out_num,QString node_name,int edit_number=1);
     VapourDescriptor(const VapourDescriptor& desc);
     void operator=(const VapourDescriptor &desc);
     ~VapourDescriptor();
@@ -55,17 +56,27 @@ public:
     void setDescHeight(float h){
         this->height = h;
     }
+    void setShape(int type=0){
+        if(type==0){
+            // 节点shape
+        }
+        if(type==1){
+            // 门电路shape
+        }
+        else{
+
+        }
+    }
 
 
 
 public:
-    QList<QString> params;
+    // QList<QString> params;
     QList<VapourSocket*> input_sockets;
     QList<VapourSocket*> output_sockets;
     //VapourAction* interaction;
     VapourActionEdit* interaction;
-    // params
-    //QList<QWidget*> edit; // params
+
 
     bool can_compute = true;
     bool input_is_union_socket = false;

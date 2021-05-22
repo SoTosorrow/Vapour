@@ -3,7 +3,7 @@
 VapourDescriptor::VapourDescriptor(QString node_name)
     :QGraphicsItem()
 {
-    qDebug()<<"Create:"<<node_name;
+    // qDebug()<<"Create:"<<node_name;
     this->title = node_name;
     this->title_color =QColor("#aaaaaa");
     this->text =new QGraphicsTextItem(this->title,this);
@@ -12,16 +12,12 @@ VapourDescriptor::VapourDescriptor(QString node_name)
     this->proxyContent = new QGraphicsProxyWidget(this);
     setSocketNumber(1,1);
     initSocket();
-    this->interaction = new VapourActionEdit();
-    this->interaction->setGeometry(edge_size, title_height+0.5*edge_size,
-                               width - 2*edge_size,height - 2*edge_size - title_height);
-    this->proxyContent->setWidget(this->interaction);
 
     this->setFlag(QGraphicsItem::ItemIsSelectable);
     this->setFlag(QGraphicsItem::ItemIsMovable);
 }
 
-VapourDescriptor::VapourDescriptor(int in_num, int out_num, QString node_name)
+VapourDescriptor::VapourDescriptor(int in_num, int out_num, QString node_name,int edit_number)
     :QGraphicsItem()
 {
     qDebug()<<"Create: VapourDescriptor"<<node_name;
@@ -32,12 +28,15 @@ VapourDescriptor::VapourDescriptor(int in_num, int out_num, QString node_name)
     this->text->setPos(4,2);
     this->proxyContent = new QGraphicsProxyWidget(this);
 
+    // 定义socket数量
     setSocketNumber(in_num,out_num);
+    // 定义socket
     initSocket();
-    setDescWidth(160);
-    setDescHeight(150);
+//    setDescWidth(160);
+//    setDescHeight(150);
 
-    this->interaction = new VapourActionEdit(3);
+    // 定义交互部分
+    this->interaction = new VapourActionEdit(edit_number);
     this->interaction->setGeometry(edge_size, title_height+0.5*edge_size,
                                width - 2*edge_size,height - 2*edge_size - title_height);
     this->proxyContent->setWidget(this->interaction);
@@ -62,6 +61,19 @@ void VapourDescriptor::operator=(const VapourDescriptor &desc)
 
 VapourDescriptor::~VapourDescriptor()
 {
+    qDeleteAll(input_sockets);
+    qDeleteAll(output_sockets);
+    input_sockets.clear();
+    output_sockets.clear();
+    delete interaction;
+    interaction = nullptr;
+    delete path_title;
+    path_title = nullptr;
+    delete path_data;
+    path_data = nullptr;
+    delete path_outline;
+    path_outline = nullptr;
+
 
 }
 

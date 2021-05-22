@@ -37,6 +37,7 @@ void VapourWin::LoadStyleSheet()
     file.open(QFile::ReadOnly | QFile::Text);  // 读取文件全部内容，使用tr()函数将其转换为QString类型
     QString stylesheet = QObject::tr(file.readAll());
     qApp->setStyleSheet(stylesheet);
+    // qDebug()<<stylesheet;
     file.close();
 }
 
