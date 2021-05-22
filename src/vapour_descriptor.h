@@ -75,7 +75,7 @@ public:
     QList<VapourSocket*> input_sockets;
     QList<VapourSocket*> output_sockets;
     //VapourAction* interaction;
-    VapourActionEdit* interaction;
+    VapourActionButton* interaction;
 
 
     bool can_compute = true;

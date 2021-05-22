@@ -14,6 +14,7 @@
 #include<QQueue>
 #include"vapour_scene.h"
 #include"vapour_node_develop.h"
+#include"vapour_node_cv.h"
 #include"vapour_edge.h"
 #include"vapour_edge_temp.h"
 #include"vapour_types.h"

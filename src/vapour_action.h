@@ -10,6 +10,7 @@
 #include<QTextEdit>
 #include<QDebug>
 #include<QList>
+#include<QPushButton>
 
 
 class VapourAction: public QWidget

@@ -8,6 +8,17 @@ CONFIG += c++11
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+INCLUDEPATH+=D:\Cpp\OpenCV-MinGW-Build-OpenCV-4.0.1-x64\include
+
+LIBS+=D:\Cpp\OpenCV-MinGW-Build-OpenCV-4.0.1-x64\x64\mingw\bin\libopencv_core401.dll
+LIBS+=D:\Cpp\OpenCV-MinGW-Build-OpenCV-4.0.1-x64\x64\mingw\bin\libopencv_highgui401.dll
+LIBS+=D:\Cpp\OpenCV-MinGW-Build-OpenCV-4.0.1-x64\x64\mingw\bin\libopencv_imgproc401.dll
+LIBS+=D:\Cpp\OpenCV-MinGW-Build-OpenCV-4.0.1-x64\x64\mingw\bin\libopencv_calib3d401.dll
+LIBS+=D:\Cpp\OpenCV-MinGW-Build-OpenCV-4.0.1-x64\x64\mingw\bin\libopencv_imgcodecs401.dll
+LIBS+=D:\Cpp\OpenCV-MinGW-Build-OpenCV-4.0.1-x64\x64\mingw\bin\libopencv_videoio401.dll
+
+
+
 SOURCES += \
     vapour_action.cpp \
     vapour_demo.cpp \
@@ -23,16 +34,18 @@ SOURCES += \
 
 HEADERS += \
     vapour_action.h \
+    vapour_action_cv.h \
     vapour_action_develop.h \
     vapour_descriptor.h \
+    vapour_descriptor_cv.h \
     vapour_descriptor_develop.h \
     vapour_edge.h \
     vapour_edge_temp.h \
     vapour_node.h \
+    vapour_node_cv.h \
     vapour_node_develop.h \
     vapour_scene.h \
     vapour_socket.h \
-    types.h \
     vapour_data.h \
     vapour_types.h \
     vapour_view.h \

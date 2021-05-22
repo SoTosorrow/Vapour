@@ -357,6 +357,9 @@ void VapourView::addNode(int index, int type, QPoint pos)
     if(type==0){
         node = new VapourNodeInput();
     }
+    else if(type==2){
+        node = new VapourNodeCvInput();
+    }
     else{
         node = new VapourNode();
     }
@@ -640,10 +643,10 @@ void VapourView::contextMenuEvent(QContextMenuEvent *event)
         addNode(number++,1,pos);
     });
     menu->addSeparator();
-    action.append(menu->addAction("Shader-Func"));
+    action.append(menu->addAction("Cv-test"));
     connect(action[2], &QAction::triggered, [=]()
     {
-        //addNode(number++,2,pos);
+        addNode(number++,2,pos);
     });
     action.append(menu->addAction("Shader-Circle"));
     connect(action[3], &QAction::triggered, [=]()

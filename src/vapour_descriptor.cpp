@@ -20,7 +20,7 @@ VapourDescriptor::VapourDescriptor(QString node_name)
 VapourDescriptor::VapourDescriptor(int in_num, int out_num, QString node_name,int edit_number)
     :QGraphicsItem()
 {
-    qDebug()<<"Create: VapourDescriptor"<<node_name;
+    // qDebug()<<"Create: VapourDescriptor"<<node_name;
     this->title = node_name;
     this->title_color =QColor("#aaaaaa");
     this->text =new QGraphicsTextItem(this->title,this);
@@ -36,7 +36,7 @@ VapourDescriptor::VapourDescriptor(int in_num, int out_num, QString node_name,in
 //    setDescHeight(150);
 
     // 定义交互部分
-    this->interaction = new VapourActionEdit(edit_number);
+    this->interaction = new VapourActionButton(edit_number);
     this->interaction->setGeometry(edge_size, title_height+0.5*edge_size,
                                width - 2*edge_size,height - 2*edge_size - title_height);
     this->proxyContent->setWidget(this->interaction);
@@ -46,6 +46,7 @@ VapourDescriptor::VapourDescriptor(int in_num, int out_num, QString node_name,in
 }
 
 VapourDescriptor::VapourDescriptor(const VapourDescriptor &desc)
+    :QGraphicsItem()
 {
     this->text = desc.text;
     this->title_color = desc.title_color;

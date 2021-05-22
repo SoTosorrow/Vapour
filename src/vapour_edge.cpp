@@ -3,6 +3,7 @@
 
 
 VapourEdge::VapourEdge(VapourNode *start_node, VapourNode *end_node, VapourSocket *start_socket, VapourSocket *end_socket, QGraphicsItem *parent)
+    :QGraphicsPathItem()
 {
     Q_UNUSED(parent);
     qDebug()<<"Create: Edge";
@@ -21,6 +22,7 @@ VapourEdge::VapourEdge(VapourNode *start_node, VapourNode *end_node, VapourSocke
 }
 
 VapourEdge::VapourEdge(const VapourEdge &edge)
+    :QGraphicsPathItem()
 {
     this->index = edge.index;
     this->input_node = edge.input_node;

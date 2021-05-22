@@ -1,6 +1,10 @@
 #ifndef VAPOUR_TYPES_H
 #define VAPOUR_TYPES_H
 
+#include<opencv2/imgproc/imgproc.hpp>
+#include<opencv2/highgui.hpp>
+#include<opencv2/imgcodecs/imgcodecs.hpp>
+#include<opencv2/core/core.hpp>
 
 enum VapourSocketConnectType{
     VapourSingleSocket = 0,
@@ -36,6 +40,10 @@ struct Connect{
 
 struct Ddata{
     double data;
+};
+
+struct DMat{
+    cv::Mat data;
 };
 
 #endif // VAPOUR_TYPES_H
