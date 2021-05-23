@@ -26,8 +26,11 @@ public:
     virtual void setData(cv::Mat data){
         qDebug()<<typeid(data).name();
     }
-    virtual double getDoubleData(){ return {};}
-    virtual cv::Mat getMatData(){ return {};}
+    virtual double getDoubleData(){ return 0;}
+    virtual cv::Mat getMatData(){
+        cv::Mat m(2, 2, CV_8UC3, cv::Scalar(0,255,0) );
+        return m;
+    }
 
 public:
     VapourDataType data_type;

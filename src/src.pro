@@ -17,6 +17,13 @@ LIBS+=D:\Cpp\OpenCV-MinGW-Build-OpenCV-4.0.1-x64\x64\mingw\bin\libopencv_calib3d
 LIBS+=D:\Cpp\OpenCV-MinGW-Build-OpenCV-4.0.1-x64\x64\mingw\bin\libopencv_imgcodecs401.dll
 LIBS+=D:\Cpp\OpenCV-MinGW-Build-OpenCV-4.0.1-x64\x64\mingw\bin\libopencv_videoio401.dll
 
+#LIBS+=\extern\libopencv_core401.dll
+#LIBS+=extern\libopencv_highgui401.dll
+#LIBS+=extern\libopencv_imgproc401.dll
+#LIBS+=extern\libopencv_calib3d401.dll
+#LIBS+=extern\libopencv_imgcodecs401.dll
+#LIBS+=extern\libopencv_videoio401.dll
+
 
 
 SOURCES += \
@@ -62,7 +69,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     ../README.md \
     ../reply/nodestyle.qss
-
 
 # QMAKE_CXXFLAGS += -Wno-unused-parameter
 # QMAKE_CXXFLAGS += -Wno-unused-variable

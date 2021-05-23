@@ -31,17 +31,16 @@ public:
         }
     }
     void handle() override{
-        output_datas[0] = input_datas[0];
+        output_datas[0]->setData(input_datas[0]->getDoubleData());
         for(int i=0;i<input_datas.length();i++){
             this->desc->setText(i,QString::number(this->input_datas[i]->getDoubleData()));
         }
     }
     void transfer() override{
         for(int i=0;i<this->output_nodes.length();i++){
-            qDebug()<<this->connect_info[i].first.first->index<<this->connect_info[i].first.second->index<<
-                      this->connect_info[i].second.first<<this->connect_info[i].second.second;
-            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]=
-                    this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first];
+            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]->setData(
+                        this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first]->getDoubleData());
+
         }
     }
 
@@ -82,8 +81,8 @@ public:
     }
     void transfer() override{
         for(int i=0;i<this->output_nodes.length();i++){
-            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]=
-                    this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first];
+            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]->setData(
+                        this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first]->getDoubleData());
         }
     }
 
@@ -124,8 +123,8 @@ public:
     }
     void transfer() override{
         for(int i=0;i<this->output_nodes.length();i++){
-            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]=
-                    this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first];
+            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]->setData(
+                        this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first]->getDoubleData());
         }
     }
 
@@ -166,8 +165,8 @@ public:
     }
     void transfer() override{
         for(int i=0;i<this->output_nodes.length();i++){
-            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]=
-                    this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first];
+            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]->setData(
+                        this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first]->getDoubleData());
         }
     }
 
@@ -208,8 +207,8 @@ public:
     }
     void transfer() override{
         for(int i=0;i<this->output_nodes.length();i++){
-            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]=
-                    this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first];
+            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]->setData(
+                        this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first]->getDoubleData());
         }
     }
 
@@ -250,8 +249,8 @@ public:
         for(int i=0;i<this->output_nodes.length();i++){
             qDebug()<<this->connect_info[i].first.first->index<<this->connect_info[i].first.second->index<<
                       this->connect_info[i].second.first<<this->connect_info[i].second.second;
-            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]=
-                    this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first];
+            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]->setData(
+                        this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first]->getDoubleData());
         }
     }
 
