@@ -62,3 +62,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     ../README.md \
     ../reply/nodestyle.qss
+
+
+# QMAKE_CXXFLAGS += -Wno-unused-parameter
+# QMAKE_CXXFLAGS += -Wno-unused-variable

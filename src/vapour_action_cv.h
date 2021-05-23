@@ -9,6 +9,7 @@ class VapourActionCvShow : public VapourAction
 public:
     VapourActionCvShow(cv::Mat m,int n=1){
         Q_UNUSED(n);
+        Q_UNUSED(m);
         QLineEdit* edit1 = new QLineEdit("1",this);
         edit1->setAlignment(Qt::AlignLeft);
         edit1->setGeometry(0,0,150,25);
@@ -56,6 +57,7 @@ class VapourActionCvInput : public VapourAction
 public:
     VapourActionCvInput(cv::Mat m,int n=1){
         Q_UNUSED(n);
+        Q_UNUSED(m);
         QLineEdit* edit = new QLineEdit("C:\\Users\\Cuimi\\Desktop\\1.png",this);
         edit->setAlignment(Qt::AlignLeft);
         edit->setGeometry(0,0,150,25);

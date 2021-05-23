@@ -77,13 +77,13 @@ public:
         return this->interaction->edits[n]->text().toDouble();
     }
     virtual QString getFile(){
-        // return this->interaction->edits[0]->text();
+        return {};
     }
     virtual void test_T_image(cv::Mat m){
-
+        Q_UNUSED(m);
     }
     virtual QList<QString> getParams(){
-
+        return {};
     }
 
 

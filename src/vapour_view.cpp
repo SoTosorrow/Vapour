@@ -359,24 +359,44 @@ void VapourView::addNode(int index, int type, QPoint pos)
     }
     else if(type==1){
         node = new VapourNodeOutput();
+        node->getDesc()->setDescWidth(150);
     }
     else if(type==2){
-        node = new VapourNodeCvInput();
-        node->desc->setDescHeight(100);
+        node = new VapourNodeAdd();
+        node->getDesc()->setDescWidth(200);
     }
     else if(type==3){
+        node = new VapourNodeSub();
+        node->getDesc()->setDescWidth(200);
+    }
+    else if(type==4){
+        node = new VapourNodeMul();
+        node->getDesc()->setDescWidth(200);
+    }
+    else if(type==5){
+        node = new VapourNodeDiv();
+        node->getDesc()->setDescWidth(200);
+    }
+
+    else if(type==10){
+        node = new VapourNodeCvInput();
+        node->getDesc()->setDescWidth(200);
+        node->getDesc()->setDescHeight(100);
+    }
+    else if(type==11){
         node = new VapourNodeCvAdd();
+        node->getDesc()->setDescWidth(200);
+        node->getDesc()->setDescHeight(200);
     }
     else{
         node = new VapourNodeInput();
     }
 
-    node->desc->setDescWidth(200);
     posF.setX(posF.x()-40);
     posF.setY(posF.y()-40);
     node->setPos(posF);
     node->setIndex(index);
-    node->setTitle(QString::number(index));
+    // node->setTitle(QString::number(index));
     this->nodes.push_back(node);
     this->vapour_scene->addItem(node->desc);
 }
@@ -639,41 +659,56 @@ void VapourView::contextMenuEvent(QContextMenuEvent *event)
 
     qDeleteAll(action);
     action.clear();
-    action.append(menu->addAction("Shader-Input"));
+    action.append(menu->addAction("DoubleInput"));
     connect(action[0], &QAction::triggered, [=]()
     {
         addNode(number++,0,pos);
     });
-    action.append(menu->addAction("Number-Output"));
+    action.append(menu->addAction("DoubleOutput"));
     connect(action[1], &QAction::triggered, [=]()
     {
         addNode(number++,1,pos);
     });
-    menu->addSeparator();
-    action.append(menu->addAction("Cv-Load"));
+    action.append(menu->addAction("DoubleAdd"));
     connect(action[2], &QAction::triggered, [=]()
     {
         addNode(number++,2,pos);
     });
-    action.append(menu->addAction("Cv-Add"));
+    action.append(menu->addAction("DoubleSub"));
     connect(action[3], &QAction::triggered, [=]()
     {
         addNode(number++,3,pos);
     });
-    action.append(menu->addAction("Number-Mul"));
+    action.append(menu->addAction("DoubleMul"));
     connect(action[4], &QAction::triggered, [=]()
     {
-        //addNode(number++,4,pos);
+        addNode(number++,4,pos);
     });
-    action.append(menu->addAction("Number-Div"));
+    action.append(menu->addAction("DoubleDiv"));
     connect(action[5], &QAction::triggered, [=]()
     {
-        //addNode(number++,5,pos);
+        addNode(number++,5,pos);
     });
+    menu->addSeparator();
+
+
+    action.append(menu->addAction("ImageLoad"));
+    connect(action[6], &QAction::triggered, [=]()
+    {
+        addNode(number++,10,pos);
+    });
+    action.append(menu->addAction("ImageBitwiseAnd"));
+    connect(action[7], &QAction::triggered, [=]()
+    {
+        addNode(number++,11,pos);
+    });
+
+
 
     QMenu *funcMenu = new QMenu("Func");
     QAction *addNoden = funcMenu->addAction("JustAShow");
     Q_UNUSED(addNoden);
+
 //    //addNoden->setMenu(childMenu);
     funcMenu->setStyleSheet(qss);
     menu->addMenu(funcMenu);

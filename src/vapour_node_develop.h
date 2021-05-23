@@ -8,39 +8,206 @@ class VapourNodeInput : public VapourNode
 public:
     VapourNodeInput(QWidget *parent=nullptr):VapourNode(parent){
         qDebug()<<"Create: Vapour node-Input";
-        initDesc(2,2);
+        initDesc(1,1);
         // 定义节点描述，自动定义节点用户接口
-        this->desc = new VapourDescriptorInput(input_socket_number,output_socket_number,"Input",2);
+        this->desc = new VapourDescriptorInput(input_socket_number,output_socket_number,"Input",1);
         // 节点大小
-        this->desc->setDescWidth(160);
-        this->desc->setDescHeight(120);
+        this->desc->setDescWidth(130);
+        this->desc->setDescHeight(80);
+        this->setTitle("DoubleInput");
     }
     void initData() override{
-        //qDeleteAll(input_datas);
+        qDeleteAll(input_datas);
         input_datas.clear();
-        //qDeleteAll(output_datas);
+        qDeleteAll(output_datas);
         output_datas.clear();
-        for(int i=0;i<this->desc->input_sockets.length();i++){
-            input_datas.append({0});
-            input_datas[i].data = this->desc->getText(i);
+
+        for(int i=0;i<this->getDesc()->input_sockets.length();i++){
+            input_datas.append(new VapourDataDouble());
+            input_datas[i]->setData(this->getDesc()->getText(i));
         }
-        for(int i=0;i<this->desc->output_sockets.length();i++){
-            output_datas.append({0});
+        for(int i=0;i<this->getDesc()->output_sockets.length();i++){
+            output_datas.append(new VapourDataDouble());
         }
     }
     void handle() override{
         output_datas[0] = input_datas[0];
-        output_datas[1] = input_datas[1];
         for(int i=0;i<input_datas.length();i++){
-            this->desc->setText(i,QString::number(this->input_datas[i].data));
+            this->desc->setText(i,QString::number(this->input_datas[i]->getDoubleData()));
         }
     }
     void transfer() override{
         for(int i=0;i<this->output_nodes.length();i++){
             qDebug()<<this->connect_info[i].first.first->index<<this->connect_info[i].first.second->index<<
                       this->connect_info[i].second.first<<this->connect_info[i].second.second;
-//            for(int j=0;j<this->input_datas.length();j++)
-//                qDebug()<<this->input_datas[j].data;
+            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]=
+                    this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first];
+        }
+    }
+
+};
+
+class VapourNodeAdd : public VapourNode
+{
+public:
+    VapourNodeAdd(QWidget *parent=nullptr):VapourNode(parent){
+        qDebug()<<"Create: Vapour node-Input";
+        initDesc(2,1);
+        // 定义节点描述，自动定义节点用户接口
+        this->desc = new VapourDescriptorInput(input_socket_number,output_socket_number,"Input",2);
+        // 节点大小
+        this->desc->setDescWidth(160);
+        this->desc->setDescHeight(120);
+        this->setTitle("DoubleAdd");
+    }
+    void initData() override{
+        qDeleteAll(input_datas);
+        input_datas.clear();
+        qDeleteAll(output_datas);
+        output_datas.clear();
+
+        for(int i=0;i<this->getDesc()->input_sockets.length();i++){
+            input_datas.append(new VapourDataDouble());
+            input_datas[i]->setData(this->getDesc()->getText(i));
+        }
+        for(int i=0;i<this->getDesc()->output_sockets.length();i++){
+            output_datas.append(new VapourDataDouble());
+        }
+    }
+    void handle() override{
+        output_datas[0]->setData(input_datas[0]->getDoubleData() + input_datas[1]->getDoubleData());
+        for(int i=0;i<input_datas.length();i++){
+            this->desc->setText(i,QString::number(this->input_datas[i]->getDoubleData()));
+        }
+    }
+    void transfer() override{
+        for(int i=0;i<this->output_nodes.length();i++){
+            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]=
+                    this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first];
+        }
+    }
+
+};
+
+class VapourNodeSub : public VapourNode
+{
+public:
+    VapourNodeSub(QWidget *parent=nullptr):VapourNode(parent){
+        qDebug()<<"Create: Vapour node-Input";
+        initDesc(2,1);
+        // 定义节点描述，自动定义节点用户接口
+        this->desc = new VapourDescriptorInput(input_socket_number,output_socket_number,"Input",2);
+        // 节点大小
+        this->desc->setDescWidth(160);
+        this->desc->setDescHeight(120);
+        this->setTitle("DoubleSub");
+    }
+    void initData() override{
+        qDeleteAll(input_datas);
+        input_datas.clear();
+        qDeleteAll(output_datas);
+        output_datas.clear();
+
+        for(int i=0;i<this->getDesc()->input_sockets.length();i++){
+            input_datas.append(new VapourDataDouble());
+            input_datas[i]->setData(this->getDesc()->getText(i));
+        }
+        for(int i=0;i<this->getDesc()->output_sockets.length();i++){
+            output_datas.append(new VapourDataDouble());
+        }
+    }
+    void handle() override{
+        output_datas[0]->setData(input_datas[0]->getDoubleData() - input_datas[1]->getDoubleData());
+        for(int i=0;i<input_datas.length();i++){
+            this->desc->setText(i,QString::number(this->input_datas[i]->getDoubleData()));
+        }
+    }
+    void transfer() override{
+        for(int i=0;i<this->output_nodes.length();i++){
+            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]=
+                    this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first];
+        }
+    }
+
+};
+
+class VapourNodeMul : public VapourNode
+{
+public:
+    VapourNodeMul(QWidget *parent=nullptr):VapourNode(parent){
+        qDebug()<<"Create: Vapour node-Input";
+        initDesc(2,1);
+        // 定义节点描述，自动定义节点用户接口
+        this->desc = new VapourDescriptorInput(input_socket_number,output_socket_number,"Input",2);
+        // 节点大小
+        this->desc->setDescWidth(160);
+        this->desc->setDescHeight(120);
+        this->setTitle("DoubleMul");
+    }
+    void initData() override{
+        qDeleteAll(input_datas);
+        input_datas.clear();
+        qDeleteAll(output_datas);
+        output_datas.clear();
+
+        for(int i=0;i<this->getDesc()->input_sockets.length();i++){
+            input_datas.append(new VapourDataDouble());
+            input_datas[i]->setData(this->getDesc()->getText(i));
+        }
+        for(int i=0;i<this->getDesc()->output_sockets.length();i++){
+            output_datas.append(new VapourDataDouble());
+        }
+    }
+    void handle() override{
+        output_datas[0]->setData(input_datas[0]->getDoubleData() * input_datas[1]->getDoubleData());
+        for(int i=0;i<input_datas.length();i++){
+            this->desc->setText(i,QString::number(this->input_datas[i]->getDoubleData()));
+        }
+    }
+    void transfer() override{
+        for(int i=0;i<this->output_nodes.length();i++){
+            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]=
+                    this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first];
+        }
+    }
+
+};
+
+class VapourNodeDiv : public VapourNode
+{
+public:
+    VapourNodeDiv(QWidget *parent=nullptr):VapourNode(parent){
+        qDebug()<<"Create: Vapour node-Input";
+        initDesc(2,1);
+        // 定义节点描述，自动定义节点用户接口
+        this->desc = new VapourDescriptorInput(input_socket_number,output_socket_number,"Input",2);
+        // 节点大小
+        this->desc->setDescWidth(160);
+        this->desc->setDescHeight(120);
+        this->setTitle("DoubleDiv");
+    }
+    void initData() override{
+        qDeleteAll(input_datas);
+        input_datas.clear();
+        qDeleteAll(output_datas);
+        output_datas.clear();
+
+        for(int i=0;i<this->getDesc()->input_sockets.length();i++){
+            input_datas.append(new VapourDataDouble());
+            input_datas[i]->setData(this->getDesc()->getText(i));
+        }
+        for(int i=0;i<this->getDesc()->output_sockets.length();i++){
+            output_datas.append(new VapourDataDouble());
+        }
+    }
+    void handle() override{
+        output_datas[0]->setData(input_datas[0]->getDoubleData() / input_datas[1]->getDoubleData());
+        for(int i=0;i<input_datas.length();i++){
+            this->desc->setText(i,QString::number(this->input_datas[i]->getDoubleData()));
+        }
+    }
+    void transfer() override{
+        for(int i=0;i<this->output_nodes.length();i++){
             this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]=
                     this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first];
         }
@@ -59,33 +226,30 @@ public:
         // 节点大小
         this->desc->setDescWidth(200);
         this->desc->setDescHeight(80);
+        this->setTitle("DoubleOutput");
     }
     void initData() override{
-        //qDeleteAll(input_datas);
+        qDeleteAll(input_datas);
         input_datas.clear();
-        //qDeleteAll(output_datas);
+        qDeleteAll(output_datas);
         output_datas.clear();
 
-        for(int i=0;i<this->desc->input_sockets.length();i++){
-            input_datas.append({0});
-            input_datas[i].data = this->desc->getText(i);
+        for(int i=0;i<this->getDesc()->input_sockets.length();i++){
+            input_datas.append(new VapourDataDouble());
         }
-        for(int i=0;i<this->desc->output_sockets.length();i++){
-            output_datas.append({0});
+        for(int i=0;i<this->getDesc()->output_sockets.length();i++){
+            output_datas.append(new VapourDataDouble());
         }
     }
     virtual void handle() override{
-        // show number
         for(int i=0;i<input_datas.length();i++){
-            this->desc->setText(i,QString::number(this->input_datas[i].data));
+            this->desc->setText(i,QString::number(this->input_datas[i]->getDoubleData()));
         }
     }
     void transfer() override{
         for(int i=0;i<this->output_nodes.length();i++){
             qDebug()<<this->connect_info[i].first.first->index<<this->connect_info[i].first.second->index<<
                       this->connect_info[i].second.first<<this->connect_info[i].second.second;
-//            for(int j=0;j<this->input_datas.length();j++)
-//                qDebug()<<this->input_datas[j].data;
             this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]=
                     this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first];
         }

@@ -23,8 +23,10 @@ enum VapourSocketDataType{
 
 
 enum VapourDataType{
+    VapourDataTypeBasic = -1,
     VapourDataTypeDouble = 0,
     VapourDataTypeString = 1,
+    VapourDataTypeMat = 2,
 };
 
 struct Connect{

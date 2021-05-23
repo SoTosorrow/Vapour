@@ -1,6 +1,8 @@
 #include <QApplication>
 #include<QDir>
 #include"vapour_win.h"
+#include"vapour_types.h"
+#include"vapour_data.h"
 #include<opencv2/imgproc/imgproc.hpp>
 #include<opencv2/highgui.hpp>
 #include<opencv2/imgcodecs/imgcodecs.hpp>
@@ -65,6 +67,7 @@ int main(int argc, char *argv[])
 
     VapourWin win;
     win.show();
+
 
 
 

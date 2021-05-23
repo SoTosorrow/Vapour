@@ -8,9 +8,9 @@
 #include<QPair>
 #include<utility>
 #include"vapour_types.h"
-#include"vapour_descriptor.h"
 #include"vapour_action_develop.h"
 #include"vapour_descriptor_develop.h"
+#include"vapour_data.h"
 
 // 释放 connect_info 内存
 class VapourNode : public QWidget
@@ -41,25 +41,9 @@ public:
     virtual VapourDescriptor* getDesc(){
         return this->desc;
     }
-    virtual void initData(){
-    }
-    virtual void handle(){
-    }
-    virtual QList<DMat> getInputDatas(){
-
-    }
-    virtual QList<DMat> getOutputDatas(){
-
-    }
-    virtual void setInputDatas(int n,DMat m){
-
-    }
-    virtual void setOutputDatas(int n,DMat m){
-
-    }
-    virtual void transfer(){
-        qDebug()<<"basic transfer";
-    }
+    virtual void initData(){}
+    virtual void handle(){}
+    virtual void transfer(){}
 
 
 public:
@@ -69,10 +53,10 @@ public:
     QList<QPair<QPair<VapourNode*,VapourNode*>,QPair<int,int>>> connect_info;
     QList<VapourNode*> input_nodes;
     QList<VapourNode*> output_nodes;
-    // input_Data
-    // output_Data
-    QList<Ddata> input_datas;
-    QList<Ddata> output_datas;
+
+    QList<VapourData*> input_datas;
+    QList<VapourData*> output_datas;
+
     int input_vaild = 0;
     int output_vaild = 0;
 
