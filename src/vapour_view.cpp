@@ -388,6 +388,16 @@ void VapourView::addNode(int index, int type, QPoint pos)
         node->getDesc()->setDescWidth(200);
         node->getDesc()->setDescHeight(200);
     }
+    else if(type==12){
+        node = new VapourNodeCvThreshold();
+        node->getDesc()->setDescWidth(200);
+        node->getDesc()->setDescHeight(170);
+    }
+    else if(type==13){
+        node = new VapourNodeCvConvert();
+        node->getDesc()->setDescWidth(200);
+        node->getDesc()->setDescHeight(100);
+    }
     else{
         node = new VapourNodeInput();
     }
@@ -701,6 +711,16 @@ void VapourView::contextMenuEvent(QContextMenuEvent *event)
     connect(action[7], &QAction::triggered, [=]()
     {
         addNode(number++,11,pos);
+    });
+    action.append(menu->addAction("ImageThreshold"));
+    connect(action[8], &QAction::triggered, [=]()
+    {
+        addNode(number++,12,pos);
+    });
+    action.append(menu->addAction("ImageConvert"));
+    connect(action[9], &QAction::triggered, [=]()
+    {
+        addNode(number++,13,pos);
     });
 
 

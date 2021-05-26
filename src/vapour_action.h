@@ -25,7 +25,7 @@ public:
     void setEditNumber(int n){
         this->edit_number = n;
     }
-    ~VapourAction(){
+    virtual ~VapourAction(){
         delete edit_layout;
         edit_layout = nullptr;
     }

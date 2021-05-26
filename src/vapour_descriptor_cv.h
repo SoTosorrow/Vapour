@@ -74,8 +74,40 @@ public:
 
 
 public:
-    //VapourActionCvShow* interaction;
     VapourActionCvShow* interaction;
+
+};
+
+class VapourDescriptorCvStringParams : public VapourDescriptor
+{
+public:
+    VapourDescriptorCvStringParams();
+    VapourDescriptorCvStringParams(int in_num,int out_num,QString node_name,int edit_number=1)
+        :VapourDescriptor(in_num,out_num,node_name,edit_number){
+        this->edit_number = edit_number;
+        interaction = new VapourActionCvStringParams(edit_number);
+        this->interaction->setGeometry(edge_size, title_height+0.5*edge_size,
+                                   width - 2*edge_size,height - 2*edge_size - title_height);
+        this->proxyContent->setWidget(this->interaction);
+    }
+    QPointF getPos() override{
+        return this->pos();
+    }
+    void setText(int n,QString t) override{
+        this->interaction->edits[n]->setText(t);
+    }
+    QList<QString> getParams() override{
+        QList<QString> a;
+        for(int i=0;i<edit_number;i++){
+            a.append(this->interaction->edits[i]->text());
+        }
+        return a;
+    }
+
+
+public:
+    VapourActionCvStringParams* interaction;
+    int edit_number;
 
 };
 

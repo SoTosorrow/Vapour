@@ -47,9 +47,41 @@ public:
     cv::Mat tm;
     //QLineEdit* edit;
 
+};
+
+class VapourActionCvStringParams : public VapourAction
+{
+public:
+    VapourActionCvStringParams(int n=1){
+        Q_UNUSED(n);
+        for(int i=0;i<n;i++){
+            QLineEdit* edit = new QLineEdit("1",this);
+            edit->setAlignment(Qt::AlignLeft);
+            edit->setGeometry(0,i*30,100,25);
+            edits.append(edit);
+        }
+
+
+//        button = new QPushButton("button",this);
+//        button->setGeometry(0,30,100,25);
+//        button->setStyleSheet("QPushButton { background-color:gray; border-radius:5px;font-size:20px; }");
+
+//        connect(button, &QPushButton::clicked, this, [=](){
+//                button->setText("CV Test");
+//                cv::imshow("test",tm);
+//            });
+    }
+    ~VapourActionCvStringParams(){
+        qDeleteAll(edits);
+        edits.clear();
+    }
+
+public:
+    QList<QLineEdit*> edits;
 
 
 };
+
 
 
 class VapourActionCvInput : public VapourAction
