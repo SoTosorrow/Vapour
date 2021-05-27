@@ -284,6 +284,9 @@ void VapourView::queryNodeInfo()
 
 void VapourView::ergodicGraph()
 {
+    vapour_compute_thread = new VapourComputeThread(this->nodes);
+    vapour_compute_thread->start();
+    /*
     qDebug()<<"**************";
     QQueue<VapourNode*> queue;
     for(int i=0;i<this->nodes.length();i++){
@@ -295,16 +298,10 @@ void VapourView::ergodicGraph()
             queue.append(this->nodes[i]);
         }
     }
-//    qDebug()<<queue.length();
-//    for(int i=0;i<queue.length();i++){
-//        qDebug()<<queue[i]->index;
-//    }
 
     qDebug()<<"topological-sort";
     while(!queue.empty()){
         qDebug()<<"compute: "<<queue[0]->index;
-//        queue[0]->desc->handle();
-//        queue[0]->transferData();
         queue[0]->handle();
         queue[0]->transfer();
         for(int k=0;k<queue[0]->output_nodes.length();k++){
@@ -315,6 +312,10 @@ void VapourView::ergodicGraph()
         }
         queue.pop_front();
     }
+    */
+    //qDebug()<<"Compute Node Complete";
+    //qDebug()<<"Main thread"<<QThread::currentThreadId();
+
 }
 
 void VapourView::debug()

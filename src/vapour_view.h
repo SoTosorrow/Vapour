@@ -18,6 +18,7 @@
 #include"vapour_edge.h"
 #include"vapour_edge_temp.h"
 #include"vapour_types.h"
+#include"vapour_compute_thread.h"
 
 class VapourView : public QGraphicsView
 {
@@ -53,6 +54,7 @@ private slots:
     void addNode(int index,int type,QPoint pos);
 
 public:
+    VapourComputeThread* vapour_compute_thread;
     VapourScene* vapour_scene;
     QList<VapourNode*> nodes;
     QList<VapourEdge*> edges;

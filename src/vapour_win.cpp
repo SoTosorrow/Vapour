@@ -17,11 +17,12 @@ VapourWin::VapourWin(QWidget *parent)
     this->setLayout(this->win_layout);  // 设置布局
 
     // this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint);
-
     // this->setStyleSheet("background-color: #262626;");
     this->LoadStyleSheet();
     this->setWindowTitle("developEditor");
     this->show();
+    //qDebug()<<"Main thread"<<this->thread();
+    qDebug()<<"Main thread"<<QThread::currentThreadId();
 }
 
 VapourWin::~VapourWin()

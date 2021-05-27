@@ -28,6 +28,7 @@ LIBS+=D:\Cpp\OpenCV-MinGW-Build-OpenCV-4.0.1-x64\x64\mingw\bin\libopencv_videoio
 
 SOURCES += \
     vapour_action.cpp \
+    vapour_compute_thread.cpp \
     vapour_demo.cpp \
     vapour_descriptor.cpp \
     vapour_edge.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
     vapour_action.h \
     vapour_action_cv.h \
     vapour_action_develop.h \
+    vapour_compute_thread.h \
     vapour_descriptor.h \
     vapour_descriptor_cv.h \
     vapour_descriptor_develop.h \
