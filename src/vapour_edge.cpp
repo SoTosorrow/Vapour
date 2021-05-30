@@ -6,7 +6,7 @@ VapourEdge::VapourEdge(VapourNode *start_node, VapourNode *end_node, VapourSocke
     :QGraphicsPathItem()
 {
     Q_UNUSED(parent);
-    qDebug()<<"Create: Edge";
+    //qDebug()<<"Create: VapourEdge";
     this->input_node = start_node;
     this->output_node = end_node;
     this->input_socket = start_socket;
@@ -52,7 +52,7 @@ void VapourEdge::operator=(const VapourEdge &edge)
 
 VapourEdge::~VapourEdge()
 {
-    qDebug()<<"Delete: Edge";
+    qDebug()<<"Delete: VapourEdge";
     this->output_socket->is_connected=false;
     // can not delete the pointer
     this->input_node = nullptr;

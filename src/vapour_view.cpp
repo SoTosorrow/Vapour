@@ -61,170 +61,9 @@ void VapourView::addEdge(VapourNode *input_node, VapourNode *output_node,
 
 }
 
-// 删除节点要先删除与之相连的edge，不然节点删完，edge的指针会导致崩溃
-// 问题在于length的for循环中，remove会导致崩溃
-// input_node->connect_info重复删除了?
-// 可能得重写
+
 /*
-void VapourView::deleteItem()
-{
-    //qDebug()<<this->vapour_scene->items().count();
-    //qDebug()<<(item_list[i]->scene()==this->vapour_scene);
-    QList<VapourNode*> node_list;
-    for(int n=0;n<this->nodes.length();n++){
-        if(this->nodes[n]->desc->isSelected())
-            node_list.append(this->nodes[n]);
-    }
-    QList<VapourEdge*> edge_list;
-    for(int n=0;n<this->edges.length();n++){
-        if(this->edges[n]->isSelected())
-            edge_list.append(this->edges[n]);
-    }
-    // qDebug()<<node_list.length()<<edge_list.length();
-
-//    for(int i=0;i<edge_list.length();i++){
-//        for(int j=0;j<this->edges.length();j++){
-//            if(this->edges[j] == edge_list[i]){
-//                //qDebug()<<"judge"<<this->edges[j]->output_socket->index<<this->edges[j]->input_socket->index;
-//                QPair<int,int> a(this->edges[j]->input_socket->index,this->edges[j]->output_socket->index);
-//                QPair<VapourNode*,VapourNode*> n(this->edges[j]->input_node,this->edges[j]->output_node);
-//                QPair<QPair<VapourNode*,VapourNode*>,QPair<int,int>>t(n,a);
-//                this->edges[j]->input_node->connect_info.removeOne(t);
-//                // 删除节点关系
-//                this->edges[j]->input_node->output_nodes.removeOne(this->edges[j]->output_node);
-//                this->edges[j]->output_node->input_nodes.removeOne(this->edges[j]->input_node);
-//                // 更新socket状态
-//                this->edges[j]->input_socket->is_connected = false;
-//                this->edges[j]->output_socket->is_connected = false;
-//                // 避免删除edge的渲染bug，先hide
-//                this->edges[j]->hide();
-//                // 从View中移除
-//                this->edges.removeOne(edge_list[i]);
-//                // 从Scene中移除
-//                this->vapour_scene->removeItem(edge_list[i]);
-//                break;
-//            }
-//        }
-//    }
-
-    for(int i=0;i<edge_list.length();i++){
-        //qDebug()<<"judge"<<this->edges[j]->output_socket->index<<this->edges[j]->input_socket->index;
-        QPair<int,int> a(edge_list[i]->input_socket->index,edge_list[i]->output_socket->index);
-        QPair<VapourNode*,VapourNode*> n(edge_list[i]->input_node,edge_list[i]->output_node);
-        QPair<QPair<VapourNode*,VapourNode*>,QPair<int,int>>t(n,a);
-        edge_list[i]->input_node->connect_info.removeOne(t);
-        // 删除节点关系
-        edge_list[i]->input_node->output_nodes.removeOne(edge_list[i]->output_node);
-        edge_list[i]->output_node->input_nodes.removeOne(edge_list[i]->input_node);
-        // 更新socket状态
-        edge_list[i]->input_socket->is_connected = false;
-        edge_list[i]->output_socket->is_connected = false;
-        // 避免删除edge的渲染bug，先hide
-        edge_list[i]->hide();
-        // 从View中移除
-        this->edges.removeOne(edge_list[i]);
-        // 从Scene中移除
-        this->vapour_scene->removeItem(edge_list[i]);
-    }
-    for(int i=0;i<node_list.length();i++){
-        // 删除节点相连的edge
-        QList<VapourEdge*> temp_d_edges;
-        QList<QPair<QPair<VapourNode*,VapourNode*>,QPair<int,int>>> info;
-        QList<int> index;
-        qDebug()<<node_list[i]->index;
-        // 删除节点output的edge
-        for(auto v:node_list[i]->connect_info){
-            info.clear();
-            index.clear();
-            QPair<int,int> a(v.second.first,
-                             v.second.second);
-            QPair<VapourNode*,VapourNode*> n(node_list[i],v.first.second);
-            QPair<QPair<VapourNode*,VapourNode*>,QPair<int,int>>t(n,a);
-            //qDebug()<<node_list[i]->index<<node_list[i]->connect_info[f].first.second->index
-            //       <<a.first<<a.second;
-            for(int x=0;x<this->edges.length();x++){
-
-                for(int y=0;y<this->edges[x]->input_node->connect_info.length();y++){
-                    if(this->edges[x]->input_node->connect_info[y] == t){
-                        // this->edges[x]->input_node->connect_info.removeOne(t);
-                        info.append(t);
-                        index.append(x);
-                        // 删除节点关系
-                        this->edges[x]->input_node->output_nodes.removeOne(this->edges[x]->output_node);
-                        this->edges[x]->output_node->input_nodes.removeOne(this->edges[x]->input_node);
-                        // 更新socket状态
-                        this->edges[x]->input_socket->is_connected = false;
-                        this->edges[x]->output_socket->is_connected = false;
-                        // 避免删除edge的渲染bug，先hide
-                        this->edges[x]->hide();
-                        temp_d_edges.append(this->edges[x]);
-                        qDebug()<<"ass";
-                    }
-
-
-                }
-
-            }
-            for(int d=0;d<info.length();d++){
-                this->edges[index[d]]->input_node->connect_info.removeOne(t);
-            }
-        }
-
-//        for(int f=0;f<node_list[i]->connect_info.length();f++){
-//            QPair<int,int> a(node_list[i]->connect_info[f].second.first,
-//                             node_list[i]->connect_info[f].second.second);
-//            QPair<VapourNode*,VapourNode*> n(node_list[i],node_list[i]->connect_info[f].first.second);
-//            QPair<QPair<VapourNode*,VapourNode*>,QPair<int,int>>t(n,a);
-//            //qDebug()<<node_list[i]->index<<node_list[i]->connect_info[f].first.second->index
-//            //       <<a.first<<a.second;
-//            for(int x=0;x<this->edges.length();x++){
-
-//                for(int y=0;y<this->edges[x]->input_node->connect_info.length();y++){
-//                    if(this->edges[x]->input_node->connect_info[y] == t){
-//                        this->edges[x]->input_node->connect_info.removeOne(t);
-//                        // 删除节点关系
-//                        this->edges[x]->input_node->output_nodes.removeOne(this->edges[x]->output_node);
-//                        this->edges[x]->output_node->input_nodes.removeOne(this->edges[x]->input_node);
-//                        // 更新socket状态
-//                        this->edges[x]->input_socket->is_connected = false;
-//                        this->edges[x]->output_socket->is_connected = false;
-//                        // 避免删除edge的渲染bug，先hide
-//                        this->edges[x]->hide();
-//                        temp_d_edges.append(this->edges[x]);
-//                    }
-
-//                }
-//            }
-
-//        }
-
-        qDebug()<<temp_d_edges.length()<<info.length();
-        for(int d=0;d<temp_d_edges.length();d++){
-            // 从View中移除
-            this->edges.removeOne(temp_d_edges[d]);
-            // 从Scene中移除
-            this->vapour_scene->removeItem(temp_d_edges[d]);
-        }
-         // 删除节点input的edge
-        this->nodes.removeOne(node_list[i]);
-        this->vapour_scene->removeItem(node_list[i]->desc);
-    }
-
-
-
-
-    // 从内存中移除
-    qDeleteAll(node_list);
-    node_list.clear();
-    qDeleteAll(edge_list);
-    edge_list.clear();
-
-    //qDebug()<<this->vapour_scene->items().count();
-
-}
-*/
-
-
+ * old deleteItem
 void VapourView::deleteItem()
 {
     //qDebug()<<this->editorScene->items().count();
@@ -258,6 +97,89 @@ void VapourView::deleteItem()
             }
         }
     }
+    //qDebug()<<this->vapour_scene->items().count();
+
+}
+*/
+
+// re-check
+void VapourView::deleteItem()
+{
+    //qDebug()<<this->vapour_scene->items().count();
+    //qDebug()<<(item_list[i]->scene()==this->vapour_scene);
+    QList<VapourNode*> node_list;
+    for(int n=0;n<this->nodes.length();n++){
+        if(this->nodes[n]->desc->isSelected())
+            node_list.append(this->nodes[n]);
+    }
+
+    QList<VapourEdge*> temp_edges = edges;
+    // TODO:优化两个数组比对
+    for(int i=0;i<node_list.length();i++){
+        // 删除节点相关的连线
+        for(int j=0;j<temp_edges.length();j++){
+            if(temp_edges[j]->input_node == node_list[i] || temp_edges[j]->output_node == node_list[i] ){
+                // 如果某连线的连接节点是要删除的节点，则删除
+                QPair<int,int> a(temp_edges[j]->input_socket->index,temp_edges[j]->output_socket->index);
+                QPair<VapourNode*,VapourNode*> n(temp_edges[j]->input_node,temp_edges[j]->output_node);
+                QPair<QPair<VapourNode*,VapourNode*>,QPair<int,int>>t(n,a);
+                temp_edges[j]->input_node->connect_info.removeOne(t);
+                // 删除节点关系
+                temp_edges[j]->input_node->output_nodes.removeOne(temp_edges[j]->output_node);
+                temp_edges[j]->output_node->input_nodes.removeOne(temp_edges[j]->input_node);
+                // 更新socket状态
+                temp_edges[j]->input_socket->is_connected = false;
+                temp_edges[j]->output_socket->is_connected = false;
+                // 避免删除edge的渲染bug，先hide
+                temp_edges[j]->hide();
+                // 从Scene中移除
+                this->vapour_scene->removeItem(temp_edges[j]);
+                // 从View内存中移除
+
+                delete temp_edges[j];
+                this->edges.removeOne(temp_edges[j]);
+                //temp_edges[j] = nullptr;
+            }
+        }
+    }
+    // 剩余的连线中判断是否要删除
+    QList<VapourEdge*> edge_list;
+    for(int n=0;n<this->edges.length();n++){
+        if(this->edges[n]->isSelected())
+            edge_list.append(this->edges[n]);
+    }
+    for(int i=0;i<edge_list.length();i++){
+        //qDebug()<<"judge"<<this->edges[j]->output_socket->index<<this->edges[j]->input_socket->index;
+        QPair<int,int> a(edge_list[i]->input_socket->index,edge_list[i]->output_socket->index);
+        QPair<VapourNode*,VapourNode*> n(edge_list[i]->input_node,edge_list[i]->output_node);
+        QPair<QPair<VapourNode*,VapourNode*>,QPair<int,int>>t(n,a);
+        edge_list[i]->input_node->connect_info.removeOne(t);
+        // 删除节点关系
+        edge_list[i]->input_node->output_nodes.removeOne(edge_list[i]->output_node);
+        edge_list[i]->output_node->input_nodes.removeOne(edge_list[i]->input_node);
+        // 更新socket状态
+        edge_list[i]->input_socket->is_connected = false;
+        edge_list[i]->output_socket->is_connected = false;
+        // 避免删除edge的渲染bug，先hide
+        edge_list[i]->hide();
+        // 从Scene中移除
+        this->vapour_scene->removeItem(edge_list[i]);
+        // 从View内存中移除
+        this->edges.removeOne(edge_list[i]);
+    }
+    // 删除选中的节点
+    for(int i=0;i<node_list.length();i++){
+        this->vapour_scene->removeItem(node_list[i]->desc);
+        this->nodes.removeOne(node_list[i]);
+    }
+
+
+    // 从内存中移除
+    qDeleteAll(node_list);
+    node_list.clear();
+    qDeleteAll(edge_list);
+    edge_list.clear();
+
     //qDebug()<<this->vapour_scene->items().count();
 
 }
@@ -355,52 +277,53 @@ void VapourView::addNode(int index, int type, QPoint pos)
     posF = this->mapToScene(pos);
     VapourNode* node;
 
-    if(type==0){
+    switch(type){
+    case 0:
         node = new VapourNodeInput();
-    }
-    else if(type==1){
+        break;
+    case 1:
         node = new VapourNodeOutput();
         node->getDesc()->setDescWidth(150);
-    }
-    else if(type==2){
+        break;
+    case 2:
         node = new VapourNodeAdd();
         node->getDesc()->setDescWidth(200);
-    }
-    else if(type==3){
+        break;
+    case 3:
         node = new VapourNodeSub();
         node->getDesc()->setDescWidth(200);
-    }
-    else if(type==4){
+        break;
+    case 4:
         node = new VapourNodeMul();
         node->getDesc()->setDescWidth(200);
-    }
-    else if(type==5){
+        break;
+    case 5:
         node = new VapourNodeDiv();
         node->getDesc()->setDescWidth(200);
-    }
-
-    else if(type==10){
+        break;
+    case 10:
         node = new VapourNodeCvInput();
         node->getDesc()->setDescWidth(200);
         node->getDesc()->setDescHeight(100);
-    }
-    else if(type==11){
+        break;
+    case 11:
         node = new VapourNodeCvAdd();
         node->getDesc()->setDescWidth(200);
         node->getDesc()->setDescHeight(200);
-    }
-    else if(type==12){
+        break;
+    case 12:
         node = new VapourNodeCvThreshold();
         node->getDesc()->setDescWidth(200);
         node->getDesc()->setDescHeight(170);
-    }
-    else if(type==13){
+        break;
+    case 13:
         node = new VapourNodeCvConvert();
         node->getDesc()->setDescWidth(200);
         node->getDesc()->setDescHeight(100);
-    }
-    else{
+        break;
+    default:
         node = new VapourNodeInput();
+
     }
 
     posF.setX(posF.x()-40);

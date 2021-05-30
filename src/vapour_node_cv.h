@@ -223,4 +223,65 @@ public:
 
 };
 
+
+class VapourNodeCvTest : public VapourNode
+{
+public:
+    VapourNodeCvTest(QWidget *parent=nullptr):VapourNode(parent){
+        qDebug()<<"Create: Vapour CV-Input";
+        initDesc(2,1);
+        // 定义节点描述，自动定义节点用户接口
+        this->desc = new VapourDescriptorCvStringParams(input_socket_number,output_socket_number,"Cv-test",2);
+        // 节点大小
+        //this->desc->setTitle("ImageThreshold");
+        this->desc->setDescWidth(300);
+        this->desc->setDescHeight(180);
+        this->setTitle("ImageTest");
+        this->getDesc()->setText(0,"6");
+    }
+    void initData() override{
+        qDebug()<<"initData";
+        qDeleteAll(input_datas);
+        input_datas.clear();
+        qDeleteAll(output_datas);
+        output_datas.clear();
+        // 输入两个端口，分别为Mat和int
+        input_datas.append(new VapourDataMat);
+        input_datas.append(new VapourDataDouble);
+
+    }
+    void handle() override{
+//        output_datas[0]->setData(input_datas[0]->getDoubleData());
+//        output_datas[0]->setData(input_datas[0]->getDoubleData());
+        int type;
+        cv::Mat m;
+        type = this->getDesc()->getParams()[0].toInt();
+        cvtColor(input_datas[0]->getMatData(),m,type);
+        output_datas[0]->setData(m);
+
+
+        /*
+            cv::COLOR_BGR2BGRA = 0,
+            cv::COLOR_BGR2GRAY = 6,
+            CV_THRESH_TOZERO_INV
+        */
+
+    }
+    void transfer() override{
+        for(int i=0;i<this->output_nodes.length();i++){
+            if(this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]->data_type == VapourDataTypeDouble){
+                this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]->setData(
+                                                                  this->connect_info[i].first.first->output_datas[0]->getDoubleData());
+            }
+            if(this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]->data_type == VapourDataTypeMat){
+                this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]->setData(
+                                                                  this->connect_info[i].first.first->output_datas[0]->getMatData());
+                cv::imshow("a",output_datas[0]->getMatData());
+            }
+         }
+
+    }
+
+};
+
 #endif // VAPOUR_NODE_CV_H

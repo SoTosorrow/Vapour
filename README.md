@@ -14,7 +14,11 @@
 
 
 待解决:  
-改进多线程，节点线程操作系统式调度，加锁和多次shift S安全检测  
+检查deleteItem问题与nullptr是否再增加  
+改进多线程，节点线程池与操作系统式调度，加锁和多次shift S安全检测  
+不同类型数据的输入输出，只在QList vapourdata new,init,handle时有区别？  
+不同socket区分，处理区分  
+更高效率的ifelse替换  
 解耦Descriptor  
 序列化与反序列化——json  
 更便捷的注册新节点，比如在右键菜单加入和在addnode加入,根据json文档扩建新节点  
@@ -25,11 +29,9 @@ setHeight 遮住的问题两个Height的问题，是子节点的height被父节�
 内存还是有一点泄漏，需要检查修复，以及内存释放的问题，包括QListQPair  
 基类析构函数设计为virtual  
 右键菜单的QAction会造成内存泄漏   
-删除节点时同时删除相关连线,优化或重写deleteItem算法并处理内存释放  
 
 数值的传递，现在是值传递，改成指针  
 加入节点!canCompute时  
-不同socket区分，处理区分  
 
 分类数据输入与输出和传递的问题  
 addNode 中的Node new是否正常释放了？需要手动delete吗？  
