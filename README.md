@@ -15,6 +15,7 @@
 
 待解决:  
 检查deleteItem问题与nullptr是否再增加  
+整理拓展部分  
 改进多线程，节点线程池与操作系统式调度，加锁和多次shift S安全检测  
 不同类型数据的输入输出，只在QList vapourdata new,init,handle时有区别？  
 不同socket区分，处理区分  

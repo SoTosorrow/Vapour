@@ -9,6 +9,7 @@ class VapourComputeThread : public QThread
 {
 public:
     VapourComputeThread(QList<VapourNode*> nodes);
+    ~VapourComputeThread();
 
 protected:
     void run() override;

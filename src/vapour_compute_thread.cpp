@@ -5,6 +5,12 @@ VapourComputeThread::VapourComputeThread(QList<VapourNode*> nodes)
     this->nodes = nodes;
 }
 
+VapourComputeThread::~VapourComputeThread()
+{
+    qDeleteAll(nodes);
+    nodes.clear();
+}
+
 void VapourComputeThread::run()
 {
      qDebug()<<"Compute thread"<<QThread::currentThreadId();
