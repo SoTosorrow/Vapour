@@ -186,17 +186,24 @@ void VapourView::deleteItem()
 
 void VapourView::copyNode()
 {
+    qDebug()<<"Copy";
     QList<VapourNode*> temp_nodes;
     for(int i=0;i<nodes.length();i++){
         if(nodes[i]->getDesc()->isSelected()){
             temp_nodes.append(nodes[i]);
+            nodes[i]->getDesc()->setSelected(false);
         }
     }
     for(int i=0;i<temp_nodes.length();i++){
         // QPointF pos = temp_nodes[i]->getDesc()->getPos();
-        QPoint pos = this->cursor().pos();
-        addNode(number++,temp_nodes[i]->getType(),pos);
+        QPoint node_pos = temp_nodes[i]->getDesc()->pos().toPoint();
+        node_pos = mapFromParent(node_pos);
+        QPoint pos = this->cursor().pos() + node_pos;
+        VapourNode* temp_node = addAndGetNode(number++,temp_nodes[i]->getType(),pos);
+        temp_node->getDesc()->setSelected(true);
+
     }
+    // TODO copy edge
 }
 
 
@@ -350,6 +357,72 @@ void VapourView::addNode(int index, int type, QPoint pos)
     this->vapour_scene->addItem(node->desc);
 }
 
+VapourNode *VapourView::addAndGetNode(int index, int type, QPoint pos)
+{
+    QPointF posF;
+    pos = this->mapFromGlobal(pos);
+    posF = this->mapToScene(pos);
+    VapourNode* node;
+
+    switch(type){
+    case 0 | VapourNodeTypeInput:
+        node = new VapourNodeInput();
+        break;
+    case 1 | VapourNodeTypeOutput:
+        node = new VapourNodeOutput();
+        node->getDesc()->setDescWidth(150);
+        break;
+    case 2 | VapourNodeTypeAdd:
+        node = new VapourNodeAdd();
+        node->getDesc()->setDescWidth(200);
+        break;
+    case 3 | VapourNodeTypeSub:
+        node = new VapourNodeSub();
+        node->getDesc()->setDescWidth(200);
+        break;
+    case 4 | VapourNodeTypeMul:
+        node = new VapourNodeMul();
+        node->getDesc()->setDescWidth(200);
+        break;
+    case 5 | VapourNodeTypeDiv:
+        node = new VapourNodeDiv();
+        node->getDesc()->setDescWidth(200);
+        break;
+    case 10:
+        node = new VapourNodeCvInput();
+        node->getDesc()->setDescWidth(200);
+        node->getDesc()->setDescHeight(100);
+        break;
+    case 11:
+        node = new VapourNodeCvAdd();
+        node->getDesc()->setDescWidth(200);
+        node->getDesc()->setDescHeight(200);
+        break;
+    case 12:
+        node = new VapourNodeCvThreshold();
+        node->getDesc()->setDescWidth(200);
+        node->getDesc()->setDescHeight(170);
+        break;
+    case 13:
+        node = new VapourNodeCvConvert();
+        node->getDesc()->setDescWidth(200);
+        node->getDesc()->setDescHeight(100);
+        break;
+    default:
+        node = new VapourNodeInput();
+
+    }
+
+    posF.setX(posF.x()-40);
+    posF.setY(posF.y()-40);
+    node->setPos(posF);
+    node->setIndex(index);
+    // node->setTitle(QString::number(index));
+    this->nodes.push_back(node);
+    this->vapour_scene->addItem(node->desc);
+    return node;
+}
+
 
 void VapourView::keyPressEvent(QKeyEvent *event){
     QPoint pos = this->cursor().pos();
@@ -367,6 +440,10 @@ void VapourView::keyPressEvent(QKeyEvent *event){
     }
     if(event->key() == Qt::Key_Delete){
         deleteItem();
+        return;
+    }
+    if((event->modifiers()== Qt::ShiftModifier) && event->key() == Qt::Key_D){
+        copyNode();
         return;
     }
 

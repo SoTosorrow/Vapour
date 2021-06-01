@@ -20,7 +20,7 @@ public:
     VapourNode(const VapourNode& node,QWidget *parent=nullptr);
     void operator=(const VapourNode &node);
     virtual ~VapourNode();
-    virtual enum VapourNodeType getType(){
+    virtual VapourNodeType getType(){
         return VapourNodeTypeBasic;
     }
 

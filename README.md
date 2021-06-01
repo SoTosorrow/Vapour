@@ -24,7 +24,7 @@
 序列化与反序列化——json  
 更便捷的注册新节点，比如在右键菜单加入和在addnode加入,根据json文档扩建新节点  
 历史记录栈  
-copy和paste  
+copy和paste:edge  
 setHeight 遮住的问题两个Height的问题，是子节点的height被父节点的height遮住了吗？清减这一块问题  
 
 内存还是有一点泄漏，需要检查修复，以及内存释放的问题，包括QListQPair  

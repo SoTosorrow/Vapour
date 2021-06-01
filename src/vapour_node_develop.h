@@ -16,7 +16,7 @@ public:
         this->desc->setDescHeight(80);
         this->setTitle("DoubleInput");
     }
-    enum VapourNodeType getType() override{
+    VapourNodeType getType() override{
         return VapourNodeTypeInput;
     }
     void initData() override{
@@ -62,7 +62,7 @@ public:
         this->desc->setDescHeight(120);
         this->setTitle("DoubleAdd");
     }
-    enum VapourNodeType getType() override{
+    VapourNodeType getType() override{
         return VapourNodeTypeAdd;
     }
     void initData() override{
@@ -107,7 +107,7 @@ public:
         this->desc->setDescHeight(120);
         this->setTitle("DoubleSub");
     }
-    enum VapourNodeType getType() override{
+    VapourNodeType getType() override{
         return VapourNodeTypeSub;
     }
     void initData() override{
@@ -152,7 +152,7 @@ public:
         this->desc->setDescHeight(120);
         this->setTitle("DoubleMul");
     }
-    enum VapourNodeType getType() override{
+    VapourNodeType getType() override{
         return VapourNodeTypeMul;
     }
     void initData() override{
@@ -197,7 +197,7 @@ public:
         this->desc->setDescHeight(120);
         this->setTitle("DoubleDiv");
     }
-    enum VapourNodeType getType() override{
+    VapourNodeType getType() override{
         return VapourNodeTypeDiv;
     }
     void initData() override{
@@ -242,7 +242,7 @@ public:
         this->desc->setDescHeight(80);
         this->setTitle("DoubleOutput");
     }
-    enum VapourNodeType getType() override{
+    VapourNodeType getType() override{
         return VapourNodeTypeOutput;
     }
     void initData() override{

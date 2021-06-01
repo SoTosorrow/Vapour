@@ -53,6 +53,7 @@ public:
 private slots:
     void addNode(int index,QPoint pos);
     void addNode(int index,int type,QPoint pos);
+    VapourNode* addAndGetNode(int index,int type,QPoint pos);
 
 public:
     VapourComputeThread* vapour_compute_thread;
