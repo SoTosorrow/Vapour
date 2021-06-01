@@ -19,8 +19,10 @@ public:
     VapourNode(QWidget *parent=nullptr);
     VapourNode(const VapourNode& node,QWidget *parent=nullptr);
     void operator=(const VapourNode &node);
-    ~VapourNode();
-
+    virtual ~VapourNode();
+    virtual enum VapourNodeType getType(){
+        return VapourNodeTypeBasic;
+    }
 
     void setIndex(int index){
         this->index = index;

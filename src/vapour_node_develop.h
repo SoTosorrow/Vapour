@@ -16,6 +16,9 @@ public:
         this->desc->setDescHeight(80);
         this->setTitle("DoubleInput");
     }
+    enum VapourNodeType getType() override{
+        return VapourNodeTypeInput;
+    }
     void initData() override{
         qDeleteAll(input_datas);
         input_datas.clear();
@@ -59,6 +62,9 @@ public:
         this->desc->setDescHeight(120);
         this->setTitle("DoubleAdd");
     }
+    enum VapourNodeType getType() override{
+        return VapourNodeTypeAdd;
+    }
     void initData() override{
         qDeleteAll(input_datas);
         input_datas.clear();
@@ -100,6 +106,9 @@ public:
         this->desc->setDescWidth(160);
         this->desc->setDescHeight(120);
         this->setTitle("DoubleSub");
+    }
+    enum VapourNodeType getType() override{
+        return VapourNodeTypeSub;
     }
     void initData() override{
         qDeleteAll(input_datas);
@@ -143,6 +152,9 @@ public:
         this->desc->setDescHeight(120);
         this->setTitle("DoubleMul");
     }
+    enum VapourNodeType getType() override{
+        return VapourNodeTypeMul;
+    }
     void initData() override{
         qDeleteAll(input_datas);
         input_datas.clear();
@@ -185,6 +197,9 @@ public:
         this->desc->setDescHeight(120);
         this->setTitle("DoubleDiv");
     }
+    enum VapourNodeType getType() override{
+        return VapourNodeTypeDiv;
+    }
     void initData() override{
         qDeleteAll(input_datas);
         input_datas.clear();
@@ -226,6 +241,9 @@ public:
         this->desc->setDescWidth(200);
         this->desc->setDescHeight(80);
         this->setTitle("DoubleOutput");
+    }
+    enum VapourNodeType getType() override{
+        return VapourNodeTypeOutput;
     }
     void initData() override{
         qDeleteAll(input_datas);

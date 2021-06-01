@@ -17,6 +17,17 @@ enum VapourSocketType{
     VapourOutputSocket = 1,
 };
 
+enum VapourNodeType{
+
+    VapourNodeTypeBasic = -1,
+    VapourNodeTypeInput = 0,
+    VapourNodeTypeOutput = 1,
+    VapourNodeTypeAdd = 2,
+    VapourNodeTypeSub = 3,
+    VapourNodeTypeMul = 4,
+    VapourNodeTypeDiv = 5,
+};
+
 enum VapourSocketDataType{
 
 };

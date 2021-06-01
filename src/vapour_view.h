@@ -44,6 +44,7 @@ public:
     void addEdge(VapourNode* input_node,VapourNode* output_node,
                  VapourSocket* input_socket,VapourSocket* output_socket);
     void deleteItem();
+    void copyNode();
     void queryNodeInfo();
     void ergodicGraph();
 

@@ -109,7 +109,7 @@ void VapourView::deleteItem()
     //qDebug()<<(item_list[i]->scene()==this->vapour_scene);
     QList<VapourNode*> node_list;
     for(int n=0;n<this->nodes.length();n++){
-        if(this->nodes[n]->desc->isSelected())
+        if(this->nodes[n]->getDesc()->isSelected())
             node_list.append(this->nodes[n]);
     }
 
@@ -182,6 +182,21 @@ void VapourView::deleteItem()
 
     //qDebug()<<this->vapour_scene->items().count();
 
+}
+
+void VapourView::copyNode()
+{
+    QList<VapourNode*> temp_nodes;
+    for(int i=0;i<nodes.length();i++){
+        if(nodes[i]->getDesc()->isSelected()){
+            temp_nodes.append(nodes[i]);
+        }
+    }
+    for(int i=0;i<temp_nodes.length();i++){
+        // QPointF pos = temp_nodes[i]->getDesc()->getPos();
+        QPoint pos = this->cursor().pos();
+        addNode(number++,temp_nodes[i]->getType(),pos);
+    }
 }
 
 
@@ -278,26 +293,26 @@ void VapourView::addNode(int index, int type, QPoint pos)
     VapourNode* node;
 
     switch(type){
-    case 0:
+    case 0 | VapourNodeTypeInput:
         node = new VapourNodeInput();
         break;
-    case 1:
+    case 1 | VapourNodeTypeOutput:
         node = new VapourNodeOutput();
         node->getDesc()->setDescWidth(150);
         break;
-    case 2:
+    case 2 | VapourNodeTypeAdd:
         node = new VapourNodeAdd();
         node->getDesc()->setDescWidth(200);
         break;
-    case 3:
+    case 3 | VapourNodeTypeSub:
         node = new VapourNodeSub();
         node->getDesc()->setDescWidth(200);
         break;
-    case 4:
+    case 4 | VapourNodeTypeMul:
         node = new VapourNodeMul();
         node->getDesc()->setDescWidth(200);
         break;
-    case 5:
+    case 5 | VapourNodeTypeDiv:
         node = new VapourNodeDiv();
         node->getDesc()->setDescWidth(200);
         break;
