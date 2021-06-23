@@ -2,6 +2,7 @@
 #define VAPOUR_NODE_DEVELOP_H
 
 #include"vapour_node.h"
+#include"vapour_edge.h"
 
 class VapourNodeInput : public VapourNode
 {
@@ -40,10 +41,19 @@ public:
         }
     }
     void transfer() override{
-        for(int i=0;i<this->output_nodes.length();i++){
-            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]->setData(
-                        this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first]->getDoubleData());
+//        for(int i=0;i<this->output_nodes.length();i++){
+//            this->connect_info[i].first.second->input_datas[this->connect_info[i].second.second]->setData(
+//                        this->connect_info[i].first.first->output_datas[this->connect_info[i].second.first]->getDoubleData());
 
+//        }
+
+
+        //update:check
+        for(int i=0;i<this->output_edges.length();i++){
+            qDebug()<<this->output_edges[i]->output_node->index<<output_edges[i]->output_socket->index<<
+                      output_edges[i]->input_node->index<<output_edges[i]->input_socket->index;
+            this->output_edges[i]->output_node->input_datas[output_edges[i]->output_socket->index]->setData(
+                        this->output_edges[i]->input_node->output_datas[output_edges[i]->input_socket->index]->getDoubleData());
         }
     }
 
