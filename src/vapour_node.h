@@ -12,6 +12,7 @@
 #include"vapour_descriptor_develop.h"
 #include"vapour_data.h"
 
+class VapourEdge;
 // 释放 connect_info 内存
 class VapourNode : public QWidget
 {
@@ -55,6 +56,11 @@ public:
     QList<QPair<QPair<VapourNode*,VapourNode*>,QPair<int,int>>> connect_info;
     QList<VapourNode*> input_nodes;
     QList<VapourNode*> output_nodes;
+
+    // new update
+    QList<VapourEdge*> connect_edges;
+    QList<VapourEdge*> input_edges;
+    QList<VapourEdge*> output_edges;
 
     QList<VapourData*> input_datas;
     QList<VapourData*> output_datas;

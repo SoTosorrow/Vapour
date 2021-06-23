@@ -1,5 +1,5 @@
 #include "vapour_node.h"
-
+#include"vapour_edge.h"
 
 VapourNode::VapourNode(QWidget *parent)
     :QWidget(parent)
@@ -29,6 +29,11 @@ VapourNode::~VapourNode()
     qDeleteAll(output_nodes);
     qDeleteAll(input_datas);
     qDeleteAll(output_datas);
+
+
+    //delete edge
+
+
     // delete connect_info
     delete desc;
     input_nodes.clear();

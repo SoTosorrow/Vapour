@@ -14,6 +14,7 @@
 
 
 待解决:  
+1,connect_info->edge_list;2,解耦Descriptor;3,优化拓展节点  
 检查deleteItem问题与nullptr是否再增加  
 整理拓展部分  
 改进多线程，节点线程池与操作系统式调度，加锁和多次shift S安全检测  

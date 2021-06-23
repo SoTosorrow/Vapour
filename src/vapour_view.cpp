@@ -48,12 +48,19 @@ void VapourView::addEdge(VapourNode *input_node, VapourNode *output_node,
     input_node->output_nodes.append(output_node);
     // 该socket可以连接多个socket，记录了连接的socket的index
 
+    // add connect_info
     QPair<int,int> a(input_socket->index,output_socket->index);
     QPair<VapourNode*,VapourNode*> n(input_node,output_node);
     QPair<QPair<VapourNode*,VapourNode*>,QPair<int,int>>t(n,a);
     input_node->connect_info.append(t);
+
     this->edge = new VapourEdge(input_node,output_node,
                               input_socket,output_socket);
+    // update
+    input_node->connect_edges.append(this->edge);
+    input_node->output_edges.append(this->edge);
+    output_node->input_edges.append(this->edge);
+
     this->edge->setZValue(-1);
     this->edges.append(this->edge);
     this->vapour_scene->addItem(this->edge);
@@ -124,6 +131,14 @@ void VapourView::deleteItem()
                 QPair<VapourNode*,VapourNode*> n(temp_edges[j]->input_node,temp_edges[j]->output_node);
                 QPair<QPair<VapourNode*,VapourNode*>,QPair<int,int>>t(n,a);
                 temp_edges[j]->input_node->connect_info.removeOne(t);
+
+                // update
+                temp_edges[j]->input_node->connect_edges.removeOne(temp_edges[j]);
+                temp_edges[j]->output_node->connect_edges.removeOne(temp_edges[j]);
+                temp_edges[j]->input_node->output_edges.removeOne(temp_edges[j]);
+                temp_edges[j]->output_node->input_edges.removeOne(temp_edges[j]);
+
+
                 // 删除节点关系
                 temp_edges[j]->input_node->output_nodes.removeOne(temp_edges[j]->output_node);
                 temp_edges[j]->output_node->input_nodes.removeOne(temp_edges[j]->input_node);
@@ -154,6 +169,14 @@ void VapourView::deleteItem()
         QPair<VapourNode*,VapourNode*> n(edge_list[i]->input_node,edge_list[i]->output_node);
         QPair<QPair<VapourNode*,VapourNode*>,QPair<int,int>>t(n,a);
         edge_list[i]->input_node->connect_info.removeOne(t);
+
+        // update
+        edge_list[i]->input_node->connect_edges.removeOne(edge_list[i]);
+        edge_list[i]->output_node->connect_edges.removeOne(edge_list[i]);
+        edge_list[i]->input_node->output_edges.removeOne(edge_list[i]);
+        edge_list[i]->output_node->input_edges.removeOne(edge_list[i]);
+
+
         // 删除节点关系
         edge_list[i]->input_node->output_nodes.removeOne(edge_list[i]->output_node);
         edge_list[i]->output_node->input_nodes.removeOne(edge_list[i]->input_node);
