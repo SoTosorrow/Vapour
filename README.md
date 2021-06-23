@@ -7,7 +7,7 @@
 
 ## Show
 
-![show1](D:\Object\Vapour\doc\show1.png)
+![show1](\doc\show1.png)
 
 
 
