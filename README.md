@@ -7,7 +7,7 @@
 
 ## Show
 
-![show1](\doc\show1.png)
+![show1](./doc/show1.png)
 
 
 
