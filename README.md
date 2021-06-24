@@ -11,6 +11,20 @@
 
 
 
+## structure
+
+VWin>VView>VScene，VScene定义了背景绘制，VView管理所有节点VNode
+
+节点VNode包含UI描述VDescriptor、数据VData、关联线VEdge
+
+UI描述VDescriptor负责节点的绘制，包括端口VSocket的绘制。并管理用户交互VAction
+
+VData可以通过继承实现各种数据
+
+VEdge储存了前后相连的两个VNode与VSocket的指针
+
+
+
 ## Features
 
 UI基于Qt的Graphics控件，包含关系为View->Scene->Item
