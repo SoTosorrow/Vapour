@@ -64,7 +64,18 @@ void VDescriptor::operator=(const VDescriptor &desc)
 
 VDescriptor::~VDescriptor()
 {
-
+    qDeleteAll(_inputSockets);
+    qDeleteAll(_outputSockets);
+    delete _interaction;
+    delete _pathTitle;
+    delete _pathData;
+    delete _pathOutline;
+    _inputSockets.clear();
+    _outputSockets.clear();
+    _interaction = nullptr;
+    _pathTitle = nullptr;
+    _pathData = nullptr;
+    _pathOutline = nullptr;
 }
 
 void VDescriptor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

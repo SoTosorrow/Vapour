@@ -16,26 +16,23 @@ VNode::VNode(const VNode &node,QWidget *parent)
 }
 VNode::~VNode()
 {
-    /*
     qDebug()<<"Delete: VapourNode";
     qDeleteAll(_inputNodes);
     qDeleteAll(_outputNodes);
-    qDeleteAll(_inputData);
-    qDeleteAll(_outputData);
+    qDeleteAll(_inputDatas);
+    qDeleteAll(_outputDatas);
 
 
     //delete edge
 
 
-    // delete connect_info
     delete _desc;
     _inputNodes.clear();
     _outputNodes.clear();
-    _inputData.clear();
-    _outputData.clear();
+    _inputDatas.clear();
+    _outputDatas.clear();
     _desc = nullptr;
 
-    */
 }
 void VNode::operator=(const VNode &node)
 {

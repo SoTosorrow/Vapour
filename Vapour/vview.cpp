@@ -23,8 +23,28 @@ VView::VView(VScene* scene,QWidget *parent)
 
 VView::~VView()
 {
+    qDeleteAll(_nodes);
+    qDeleteAll(_edges);
+    qDeleteAll(_action);
     delete _scene;
-    this->_scene = nullptr;
+    delete _computeThread;
+    delete _edgeTemp;
+    delete _edge;
+    delete _mainMenu;
+    delete _startNode;
+    delete _endNode;
+    delete _startSocket;
+    delete _endSocket;
+    _scene = nullptr;
+    _computeThread = nullptr;
+    _edgeTemp = nullptr;
+    _edge = nullptr;
+    _mainMenu = nullptr;
+    _startNode = nullptr;
+    _endNode = nullptr;
+    _startSocket = nullptr;
+    _endSocket = nullptr;
+
 }
 
 void VView::mousePressEvent(QMouseEvent *event)
