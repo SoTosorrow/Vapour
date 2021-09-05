@@ -38,7 +38,7 @@ public:
 
         for(int i=0;i<this->getDesc()->getInputSocketsLength();i++){
             _inputDatas.append(new VDataDouble());
-            VDataDouble* inputData = dynamic_cast<VDataDouble*>(_inputDatas[i]);
+            VDataDouble* inputData = static_cast<VDataDouble*>(_inputDatas[i]);
             inputData->setData(this->getDesc()->getText(i));
         }
         for(int i=0;i<this->getDesc()->getoutputSocketsLength();i++){
@@ -46,16 +46,16 @@ public:
         }
     }
     void handle() override{
-        VDataDouble* inputData = dynamic_cast<VDataDouble*>(_inputDatas[0]);
-        VDataDouble* outputData = dynamic_cast<VDataDouble*>(_outputDatas[0]);
+        VDataDouble* inputData = static_cast<VDataDouble*>(_inputDatas[0]);
+        VDataDouble* outputData = static_cast<VDataDouble*>(_outputDatas[0]);
 
         outputData->setData(inputData->getData());
         this->getDesc()->setText(0,QString::number(inputData->getData()));
     }
     void transfer() override{
         for(int i=0;i<this->_outputEdges.length();i++){
-            VDataDouble* data = dynamic_cast<VDataDouble*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
-            VDataDouble* data2 = dynamic_cast<VDataDouble*>( _outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
+            VDataDouble* data = static_cast<VDataDouble*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
+            VDataDouble* data2 = static_cast<VDataDouble*>( _outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
             data2->setData(data->getData());
         }
     }
@@ -86,7 +86,7 @@ public:
 
         for(int i=0;i<this->getDesc()->getInputSocketsLength();i++){
             _inputDatas.append(new VDataDouble());
-            VDataDouble* inputData = dynamic_cast<VDataDouble*>(_inputDatas[i]);
+            VDataDouble* inputData = static_cast<VDataDouble*>(_inputDatas[i]);
             inputData->setData(this->getDesc()->getText(i));
         }
         for(int i=0;i<this->getDesc()->getoutputSocketsLength();i++){
@@ -95,9 +95,9 @@ public:
 
     }
     void handle() override{
-        VDataDouble* inputData = dynamic_cast<VDataDouble*>(_inputDatas[0]);
-        VDataDouble* inputData2 = dynamic_cast<VDataDouble*>(_inputDatas[1]);
-        VDataDouble* outputData = dynamic_cast<VDataDouble*>(_outputDatas[0]);
+        VDataDouble* inputData = static_cast<VDataDouble*>(_inputDatas[0]);
+        VDataDouble* inputData2 = static_cast<VDataDouble*>(_inputDatas[1]);
+        VDataDouble* outputData = static_cast<VDataDouble*>(_outputDatas[0]);
 
         outputData->setData(inputData->getData()+inputData2->getData());
         this->getDesc()->setText(0,QString::number(inputData->getData()));
@@ -105,8 +105,8 @@ public:
     }
     void transfer() override{
         for(int i=0;i<this->_outputEdges.length();i++){
-            VDataDouble* data = dynamic_cast<VDataDouble*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
-            VDataDouble* data2 = dynamic_cast<VDataDouble*>( _outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
+            VDataDouble* data = static_cast<VDataDouble*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
+            VDataDouble* data2 = static_cast<VDataDouble*>( _outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
             data2->setData(data->getData());
         }
     }
@@ -137,7 +137,7 @@ public:
 
         for(int i=0;i<this->getDesc()->getInputSocketsLength();i++){
             _inputDatas.append(new VDataDouble());
-            VDataDouble* inputData = dynamic_cast<VDataDouble*>(_inputDatas[i]);
+            VDataDouble* inputData = static_cast<VDataDouble*>(_inputDatas[i]);
             inputData->setData(this->getDesc()->getText(i));
         }
         for(int i=0;i<this->getDesc()->getoutputSocketsLength();i++){
@@ -145,9 +145,9 @@ public:
         }
     }
     void handle() override{
-        VDataDouble* inputData = dynamic_cast<VDataDouble*>(_inputDatas[0]);
-        VDataDouble* inputData2 = dynamic_cast<VDataDouble*>(_inputDatas[1]);
-        VDataDouble* outputData = dynamic_cast<VDataDouble*>(_outputDatas[0]);
+        VDataDouble* inputData = static_cast<VDataDouble*>(_inputDatas[0]);
+        VDataDouble* inputData2 = static_cast<VDataDouble*>(_inputDatas[1]);
+        VDataDouble* outputData = static_cast<VDataDouble*>(_outputDatas[0]);
 
         outputData->setData(inputData->getData()-inputData2->getData());
         this->getDesc()->setText(0,QString::number(inputData->getData()));
@@ -155,8 +155,8 @@ public:
     }
     void transfer() override{
         for(int i=0;i<this->_outputEdges.length();i++){
-            VDataDouble* data = dynamic_cast<VDataDouble*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
-            VDataDouble* data2 = dynamic_cast<VDataDouble*>( _outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
+            VDataDouble* data = static_cast<VDataDouble*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
+            VDataDouble* data2 = static_cast<VDataDouble*>( _outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
             data2->setData(data->getData());
         }
     }
@@ -187,7 +187,7 @@ public:
 
         for(int i=0;i<this->getDesc()->getInputSocketsLength();i++){
             _inputDatas.append(new VDataDouble());
-            VDataDouble* inputData = dynamic_cast<VDataDouble*>(_inputDatas[i]);
+            VDataDouble* inputData = static_cast<VDataDouble*>(_inputDatas[i]);
             inputData->setData(this->getDesc()->getText(i));
         }
         for(int i=0;i<this->getDesc()->getoutputSocketsLength();i++){
@@ -195,9 +195,9 @@ public:
         }
     }
     void handle() override{
-        VDataDouble* inputData = dynamic_cast<VDataDouble*>(_inputDatas[0]);
-        VDataDouble* inputData2 = dynamic_cast<VDataDouble*>(_inputDatas[1]);
-        VDataDouble* outputData = dynamic_cast<VDataDouble*>(_outputDatas[0]);
+        VDataDouble* inputData = static_cast<VDataDouble*>(_inputDatas[0]);
+        VDataDouble* inputData2 = static_cast<VDataDouble*>(_inputDatas[1]);
+        VDataDouble* outputData = static_cast<VDataDouble*>(_outputDatas[0]);
 
         outputData->setData(inputData->getData()*inputData2->getData());
         this->getDesc()->setText(0,QString::number(inputData->getData()));
@@ -205,8 +205,8 @@ public:
     }
     void transfer() override{
         for(int i=0;i<this->_outputEdges.length();i++){
-            VDataDouble* data = dynamic_cast<VDataDouble*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
-            VDataDouble* data2 = dynamic_cast<VDataDouble*>( _outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
+            VDataDouble* data = static_cast<VDataDouble*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
+            VDataDouble* data2 = static_cast<VDataDouble*>( _outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
             data2->setData(data->getData());
         }
     }
@@ -237,7 +237,7 @@ public:
 
         for(int i=0;i<this->getDesc()->getInputSocketsLength();i++){
             _inputDatas.append(new VDataDouble());
-            VDataDouble* inputData = dynamic_cast<VDataDouble*>(_inputDatas[i]);
+            VDataDouble* inputData = static_cast<VDataDouble*>(_inputDatas[i]);
             inputData->setData(this->getDesc()->getText(i));
         }
         for(int i=0;i<this->getDesc()->getoutputSocketsLength();i++){
@@ -245,9 +245,9 @@ public:
         }
     }
     void handle() override{
-        VDataDouble* inputData = dynamic_cast<VDataDouble*>(_inputDatas[0]);
-        VDataDouble* inputData2 = dynamic_cast<VDataDouble*>(_inputDatas[1]);
-        VDataDouble* outputData = dynamic_cast<VDataDouble*>(_outputDatas[0]);
+        VDataDouble* inputData = static_cast<VDataDouble*>(_inputDatas[0]);
+        VDataDouble* inputData2 = static_cast<VDataDouble*>(_inputDatas[1]);
+        VDataDouble* outputData = static_cast<VDataDouble*>(_outputDatas[0]);
 
         outputData->setData(inputData->getData()/inputData2->getData());
         this->getDesc()->setText(0,QString::number(inputData->getData()));
@@ -255,8 +255,8 @@ public:
     }
     void transfer() override{
         for(int i=0;i<this->_outputEdges.length();i++){
-            VDataDouble* data = dynamic_cast<VDataDouble*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
-            VDataDouble* data2 = dynamic_cast<VDataDouble*>( _outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
+            VDataDouble* data = static_cast<VDataDouble*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
+            VDataDouble* data2 = static_cast<VDataDouble*>( _outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
             data2->setData(data->getData());
         }
     }

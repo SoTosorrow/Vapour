@@ -34,7 +34,7 @@ public:
         for(int i=0;i<this->getDesc()->getInputSocketsLength();i++){
             _inputDatas.append(new VDataMat());
             m = cv::imread(this->getDesc()->getParams()[0].toStdString());
-            VDataMat* data = dynamic_cast<VDataMat*>(_inputDatas[i]);
+            VDataMat* data = static_cast<VDataMat*>(_inputDatas[i]);
             data->setData(m);
         }
         for(int i=0;i<this->getDesc()->getoutputSocketsLength();i++){
@@ -42,17 +42,17 @@ public:
         }
     }
     void handle() override{
-        VDataMat* inputData = dynamic_cast<VDataMat*>(_inputDatas[0]);
-        VDataMat* outputData = dynamic_cast<VDataMat*>(_outputDatas[0]);
+        VDataMat* inputData = static_cast<VDataMat*>(_inputDatas[0]);
+        VDataMat* outputData = static_cast<VDataMat*>(_outputDatas[0]);
         outputData->setData(inputData->getData());
     }
     void transfer() override{
         for(int i=0;i<this->getOutputNodes().length();i++){
-            VDataMat* data = dynamic_cast<VDataMat*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
-            VDataMat* data2 = dynamic_cast<VDataMat*>(_outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
+            VDataMat* data = static_cast<VDataMat*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
+            VDataMat* data2 = static_cast<VDataMat*>(_outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
             data2->setData(data->getData());
         }
-        VDataMat* outputData = dynamic_cast<VDataMat*>(_outputDatas[0]);
+        VDataMat* outputData = static_cast<VDataMat*>(_outputDatas[0]);
         cv::imshow("a",outputData->getData());
     }
 
@@ -69,7 +69,7 @@ public:
         // 定义节点描述，自动定义节点用户接口
         this->setDesc(new VDescriptorCvStringParams(_inputSocketNumber,_outputSocketNumber,1));
         // adjust pos to be beautiful
-        VDescriptorCvStringParams* desc = dynamic_cast<VDescriptorCvStringParams*>(getDesc());
+        VDescriptorCvStringParams* desc = static_cast<VDescriptorCvStringParams*>(getDesc());
         desc->interaction->edits[0]->setGeometry(0,1*30,100,25);
 
         // 节点大小
@@ -102,23 +102,23 @@ public:
         // type socket have connected
         if(this->getDesc()->getInputSockets()[1]->getConnectedState())
         {
-            VDataDouble* inputType = dynamic_cast<VDataDouble*>(_inputDatas[1]);
+            VDataDouble* inputType = static_cast<VDataDouble*>(_inputDatas[1]);
             this->getDesc()->setText(0,QString::number(inputType->getData()));
         }
         type = this->getDesc()->getParams()[0].toInt();
 
-        VDataMat* inputdata = dynamic_cast<VDataMat*>(_inputDatas[0]);
-        VDataMat* outputdata = dynamic_cast<VDataMat*>(_outputDatas[0]);
+        VDataMat* inputdata = static_cast<VDataMat*>(_inputDatas[0]);
+        VDataMat* outputdata = static_cast<VDataMat*>(_outputDatas[0]);
         cvtColor(inputdata->getData(),m,type);
         outputdata->setData(m);
     }
     void transfer() override{
         for(int i=0;i<this->getOutputNodes().length();i++){
-            VDataMat* data = dynamic_cast<VDataMat*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
-            VDataMat* data2 = dynamic_cast<VDataMat*>(_outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
+            VDataMat* data = static_cast<VDataMat*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
+            VDataMat* data2 = static_cast<VDataMat*>(_outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
             data2->setData(data->getData());
         }
-        VDataMat* outputData = dynamic_cast<VDataMat*>(_outputDatas[0]);
+        VDataMat* outputData = static_cast<VDataMat*>(_outputDatas[0]);
         cv::imshow("a",outputData->getData());
     }
 
@@ -168,27 +168,27 @@ public:
         // type socket have connected
         if(this->getDesc()->getInputSockets()[0]->getConnectedState())
         {
-            VDataDouble* inputType = dynamic_cast<VDataDouble*>(_inputDatas[0]);
+            VDataDouble* inputType = static_cast<VDataDouble*>(_inputDatas[0]);
             this->getDesc()->setText(0,QString::number(inputType->getData()));
         }
         // type socket have connected
         if(this->getDesc()->getInputSockets()[1]->getConnectedState())
         {
-            VDataDouble* inputType = dynamic_cast<VDataDouble*>(_inputDatas[1]);
+            VDataDouble* inputType = static_cast<VDataDouble*>(_inputDatas[1]);
             this->getDesc()->setText(1,QString::number(inputType->getData()));
         }
         // type socket have connected
         if(this->getDesc()->getInputSockets()[2]->getConnectedState())
         {
-            VDataDouble* inputType = dynamic_cast<VDataDouble*>(_inputDatas[2]);
+            VDataDouble* inputType = static_cast<VDataDouble*>(_inputDatas[2]);
             this->getDesc()->setText(2,QString::number(inputType->getData()));
         }
 
         thresh = this->getDesc()->getParams()[0].toDouble();
         maxval = this->getDesc()->getParams()[1].toDouble();
         type = this->getDesc()->getParams()[2].toInt();
-        VDataMat* inputData = dynamic_cast<VDataMat*>(_inputDatas[3]);
-        VDataMat* outputData = dynamic_cast<VDataMat*>(_outputDatas[0]);
+        VDataMat* inputData = static_cast<VDataMat*>(_inputDatas[3]);
+        VDataMat* outputData = static_cast<VDataMat*>(_outputDatas[0]);
         cv::threshold(inputData->getData(),m,thresh,maxval,type);
         outputData->setData(m);
 
@@ -203,11 +203,11 @@ public:
     }
     void transfer() override{
         for(int i=0;i<this->getOutputNodes().length();i++){
-            VDataMat* data = dynamic_cast<VDataMat*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
-            VDataMat* data2 = dynamic_cast<VDataMat*>(_outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
+            VDataMat* data = static_cast<VDataMat*>(_outputEdges[i]->getStartNode()->getOutputDatas()[_outputEdges[i]->_startSocket->getIndex()]);
+            VDataMat* data2 = static_cast<VDataMat*>(_outputEdges[i]->getEndNode()->getInputDatas()[_outputEdges[i]->_endSocket->getIndex()]);
             data2->setData(data->getData());
         }
-        VDataMat* outputData = dynamic_cast<VDataMat*>(_outputDatas[0]);
+        VDataMat* outputData = static_cast<VDataMat*>(_outputDatas[0]);
         cv::imshow("a",outputData->getData());
     }
 

@@ -18,6 +18,15 @@
 #include "vdata.h"
 #include "vdescriptor_develop.h"
 
+/*
+
+//TODO DLL export & import
+#ifdef  _DLL_VAPOUR
+#define  VAPOUR_API   __declspec(dllexport)
+#else
+#define  VAPOUR_API   __declspec(dllimport)
+#endif
+*/
 
 class VEdge;
 class VNode : public QWidget
